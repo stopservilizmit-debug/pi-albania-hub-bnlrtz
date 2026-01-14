@@ -1,14 +1,9 @@
+
 module.exports = function (api) {
   api.cache(true);
 
-  const EDITABLE_COMPONENTS =
-    process.env.EXPO_PUBLIC_ENABLE_EDIT_MODE === "TRUE" &&
-    process.env.NODE_ENV === "development"
-      ? [
-          ["./babel-plugins/editable-elements.js", {}],
-          ["./babel-plugins/inject-source-location.js", {}],
-        ]
-      : [];
+  // Disable editable components to prevent import resolution errors
+  const EDITABLE_COMPONENTS = [];
 
   return {
     presets: ["babel-preset-expo"],
