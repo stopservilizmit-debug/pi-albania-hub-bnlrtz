@@ -41,7 +41,8 @@
       "typedRoutes": true
     },
     "extra": {
-      "router": {}
+      "router": {},
+      "backendUrl": "https://5jj9frgc7vncgryytacv4eax7sz9j77c.app.specular.dev"
     }
   },
   "scheme": "Pi Albania Hub"
