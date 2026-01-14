@@ -1,3 +1,4 @@
+
 const { getDefaultConfig } = require('expo/metro-config');
 const { FileStore } = require('metro-cache');
 const path = require('path');
@@ -8,8 +9,13 @@ const config = getDefaultConfig(__dirname);
 config.resolver.unstable_enablePackageExports = true;
 
 // Use turborepo to restore the cache when possible
+// Add cache version to force rebuild when needed
 config.cacheStores = [
-    new FileStore({ root: path.join(__dirname, 'node_modules', '.cache', 'metro') }),
+    new FileStore({ 
+      root: path.join(__dirname, 'node_modules', '.cache', 'metro'),
+      // Force cache invalidation by changing this version
+      cacheVersion: 'v2-no-editable-components'
+    }),
   ];
 
 // Custom server middleware to receive console.log messages from the app
