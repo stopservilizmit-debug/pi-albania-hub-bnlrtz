@@ -1,13 +1,12 @@
 
 import React, { useEffect } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { useNetworkState } from "expo-network";
 import { WidgetProvider } from "@/contexts/WidgetContext";
 import { PiProvider } from "@/contexts/PiContext";
 import { SystemBars } from "react-native-edge-to-edge";
-import { Stack, router } from "expo-router";
+import { Stack } from "expo-router";
 import "react-native-reanimated";
-import { useColorScheme, Alert } from "react-native";
+import { useColorScheme, View, Text } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 import { useFonts } from "expo-font";
 import {
@@ -21,18 +20,29 @@ import { StatusBar } from "expo-status-bar";
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  console.log('RootLayout: Initializing app');
   const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
+  const [loaded, error] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
   });
 
   useEffect(() => {
     if (loaded) {
+      console.log('RootLayout: Fonts loaded, hiding splash screen');
       SplashScreen.hideAsync();
     }
   }, [loaded]);
 
-  if (!loaded) {
+  useEffect(() => {
+    if (error) {
+      console.error('RootLayout: Font loading error:', error);
+      // Hide splash screen even if fonts fail to load
+      SplashScreen.hideAsync();
+    }
+  }, [error]);
+
+  // Show a simple loading view while fonts are loading
+  if (!loaded && !error) {
     return null;
   }
 
@@ -50,6 +60,8 @@ export default function RootLayout() {
     },
   };
 
+  console.log('RootLayout: Rendering main app structure');
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ThemeProvider value={LightTheme}>
@@ -63,6 +75,9 @@ export default function RootLayout() {
               }}
             >
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+              <Stack.Screen name="formsheet" options={{ presentation: 'formSheet' }} />
+              <Stack.Screen name="transparent-modal" options={{ presentation: 'transparentModal' }} />
             </Stack>
           </PiProvider>
         </WidgetProvider>

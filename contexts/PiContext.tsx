@@ -38,9 +38,10 @@ export function PiProvider({ children }: PiProviderProps) {
 
   const initializePiSDK = useCallback(async () => {
     try {
+      console.log('PiProvider: Checking for Pi SDK on window object');
       // @ts-expect-error - Pi SDK is loaded dynamically
       if (typeof window !== 'undefined' && window.Pi) {
-        console.log('PiProvider: Initializing Pi SDK');
+        console.log('PiProvider: Pi SDK found, initializing...');
         // @ts-expect-error - Pi SDK is loaded dynamically
         await window.Pi.init({ 
           version: "2.0", 
@@ -49,7 +50,7 @@ export function PiProvider({ children }: PiProviderProps) {
         console.log('PiProvider: Pi SDK initialized successfully');
         setPiSDKLoaded(true);
       } else {
-        console.warn('PiProvider: Pi SDK not found on window object');
+        console.log('PiProvider: Pi SDK not found on window object');
         setPiSDKLoaded(false);
       }
     } catch (error) {
@@ -63,7 +64,16 @@ export function PiProvider({ children }: PiProviderProps) {
   const loadPiSDK = useCallback(async () => {
     try {
       if (Platform.OS === 'web') {
-        console.log('PiProvider: Loading Pi SDK for web');
+        console.log('PiProvider: Loading Pi SDK script for web platform');
+        
+        // Check if script is already loaded
+        // @ts-expect-error - Pi SDK is loaded dynamically
+        if (typeof window !== 'undefined' && window.Pi) {
+          console.log('PiProvider: Pi SDK already loaded');
+          initializePiSDK();
+          return;
+        }
+
         // Load Pi SDK script dynamically
         const script = document.createElement('script');
         script.src = 'https://sdk.minepi.com/pi-sdk.js';
@@ -74,8 +84,9 @@ export function PiProvider({ children }: PiProviderProps) {
           initializePiSDK();
         };
         
-        script.onerror = () => {
-          console.warn('PiProvider: Failed to load Pi SDK script, continuing without it');
+        script.onerror = (error) => {
+          console.warn('PiProvider: Failed to load Pi SDK script:', error);
+          console.log('PiProvider: Continuing without Pi SDK - app will work in limited mode');
           setPiSDKLoaded(false);
           setLoading(false);
         };
@@ -83,19 +94,19 @@ export function PiProvider({ children }: PiProviderProps) {
         document.head.appendChild(script);
       } else {
         // For native platforms, Pi SDK is not available
-        console.log('PiProvider: Pi SDK not available on native platforms');
+        console.log('PiProvider: Running on native platform - Pi SDK not available');
         setPiSDKLoaded(false);
         setLoading(false);
       }
     } catch (error) {
-      console.error('PiProvider: Error loading Pi SDK:', error);
+      console.error('PiProvider: Error in loadPiSDK:', error);
       setPiSDKLoaded(false);
       setLoading(false);
     }
   }, [initializePiSDK]);
 
   useEffect(() => {
-    console.log('PiProvider: Initializing Pi SDK');
+    console.log('PiProvider: Component mounted, starting Pi SDK initialization');
     loadPiSDK();
   }, [loadPiSDK]);
 
@@ -105,29 +116,32 @@ export function PiProvider({ children }: PiProviderProps) {
   }, []);
 
   const signInWithPi = useCallback(async () => {
-    console.log('PiProvider: Attempting to sign in with Pi');
+    console.log('PiProvider: User initiated sign in with Pi');
     try {
       if (!piSDKLoaded) {
-        console.warn('PiProvider: Pi SDK not loaded, cannot authenticate');
-        alert('Pi SDK is not available. Please try again later.');
+        console.warn('PiProvider: Cannot authenticate - Pi SDK not loaded');
+        alert('Pi SDK is not available. Please open this app in Pi Browser to use Pi Authentication.');
         return;
       }
 
       // @ts-expect-error - Pi SDK is loaded dynamically
       if (typeof window !== 'undefined' && window.Pi) {
-        console.log('PiProvider: Calling Pi.authenticate');
+        console.log('PiProvider: Calling Pi.authenticate with username scope');
         // @ts-expect-error - Pi SDK is loaded dynamically
         const scopes = ['username'];
         // @ts-expect-error - Pi SDK is loaded dynamically
         const authResult = await window.Pi.authenticate(scopes, onIncompletePaymentFound);
         
-        console.log('PiProvider: Authentication successful', authResult);
+        console.log('PiProvider: Authentication successful for user:', authResult.user.username);
         
         setPiUser({
           uid: authResult.user.uid,
           username: authResult.user.username,
         });
         setAuthenticated(true);
+      } else {
+        console.error('PiProvider: Pi SDK not available on window object');
+        alert('Pi SDK is not available. Please try again.');
       }
     } catch (error) {
       console.error('PiProvider: Authentication error:', error);
@@ -136,22 +150,29 @@ export function PiProvider({ children }: PiProviderProps) {
   }, [piSDKLoaded, onIncompletePaymentFound]);
 
   const signOut = useCallback(() => {
-    console.log('PiProvider: Signing out user');
+    console.log('PiProvider: User signed out');
     setPiUser(null);
     setAuthenticated(false);
   }, []);
 
+  const value = {
+    piUser,
+    loading,
+    authenticated,
+    piSDKLoaded,
+    signInWithPi,
+    signOut,
+  };
+
+  console.log('PiProvider: Rendering with state:', { 
+    loading, 
+    authenticated, 
+    piSDKLoaded, 
+    hasUser: !!piUser 
+  });
+
   return (
-    <PiContext.Provider
-      value={{
-        piUser,
-        loading,
-        authenticated,
-        piSDKLoaded,
-        signInWithPi,
-        signOut,
-      }}
-    >
+    <PiContext.Provider value={value}>
       {children}
     </PiContext.Provider>
   );
