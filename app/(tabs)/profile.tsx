@@ -52,7 +52,7 @@ export default function ProfileScreen() {
         {/* Loading State */}
         {loading && (
           <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color="#6366F1" />
+            <ActivityIndicator size="large" color="#FF6B6B" />
             <Text style={styles.loadingText}>Loading Pi SDK...</Text>
           </View>
         )}
@@ -62,7 +62,7 @@ export default function ProfileScreen() {
           <View style={styles.loginSection}>
             <View style={styles.loginCardWrapper}>
               <LinearGradient
-                colors={['#6366F1', '#4F46E5', '#4338CA']}
+                colors={['#FF6B6B', '#FF8E8E', '#FFA5A5']}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
                 style={styles.loginCardGradient}
@@ -73,13 +73,13 @@ export default function ProfileScreen() {
                       ios_icon_name="person.circle.fill" 
                       android_material_icon_name="account-circle" 
                       size={72} 
-                      color="#6366F1" 
+                      color="#FF6B6B" 
                     />
                   </View>
                 </View>
                 
-                <Text style={styles.loginTitle}>Join Albania Hub</Text>
-                <Text style={styles.loginSubtitle}>Connect with Pi Network to unlock your profile and access exclusive community features</Text>
+                <Text style={styles.loginTitle}>Your Profile Awaits</Text>
+                <Text style={styles.loginSubtitle}>Connect with Pi Network to create your profile and unlock the full Albania Hub experience</Text>
                 
                 {!piSDKLoaded && (
                   <View style={styles.warningCard}>
@@ -100,16 +100,16 @@ export default function ProfileScreen() {
                   activeOpacity={0.9}
                 >
                   {isLoggingIn ? (
-                    <ActivityIndicator color="#6366F1" />
+                    <ActivityIndicator color="#FF6B6B" />
                   ) : (
                     <View style={styles.loginButtonContent}>
                       <IconSymbol 
                         ios_icon_name="lock.shield.fill" 
                         android_material_icon_name="verified-user" 
                         size={20} 
-                        color="#6366F1" 
+                        color="#FF6B6B" 
                       />
-                      <Text style={styles.loginButtonText}>Login with Pi Network</Text>
+                      <Text style={styles.loginButtonText}>Connect with Pi</Text>
                     </View>
                   )}
                 </TouchableOpacity>
@@ -153,7 +153,7 @@ export default function ProfileScreen() {
           <View style={styles.profileSection}>
             <View style={styles.profileCardWrapper}>
               <LinearGradient
-                colors={['#10B981', '#059669']}
+                colors={['#00B894', '#00D2A0']}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
                 style={styles.profileCardGradient}
@@ -164,7 +164,7 @@ export default function ProfileScreen() {
                       ios_icon_name="person.circle.fill" 
                       android_material_icon_name="account-circle" 
                       size={80} 
-                      color="#10B981" 
+                      color="#00B894" 
                     />
                   </View>
                 </View>
@@ -190,14 +190,14 @@ export default function ProfileScreen() {
               activeOpacity={0.8}
             >
               {isLoggingOut ? (
-                <ActivityIndicator color="#EF4444" />
+                <ActivityIndicator color="#D63031" />
               ) : (
                 <>
                   <IconSymbol 
                     ios_icon_name="arrow.right.square.fill" 
                     android_material_icon_name="logout" 
                     size={20} 
-                    color="#EF4444" 
+                    color="#D63031" 
                   />
                   <Text style={styles.logoutButtonText}>Logout</Text>
                 </>
@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
   loginCardWrapper: {
     borderRadius: 24,
     overflow: 'hidden',
-    boxShadow: '0px 8px 24px rgba(99, 102, 241, 0.25)',
+    boxShadow: '0px 8px 24px rgba(255, 107, 107, 0.25)',
     elevation: 8,
   },
   loginCardGradient: {
@@ -271,7 +271,8 @@ const styles = StyleSheet.create({
   },
   loginSubtitle: {
     fontSize: 15,
-    color: '#E0E7FF',
+    color: '#FFFFFF',
+    opacity: 0.95,
     textAlign: 'center',
     marginBottom: 24,
     lineHeight: 22,
@@ -315,7 +316,7 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   loginButtonText: {
-    color: '#6366F1',
+    color: '#FF6B6B',
     fontSize: 17,
     fontWeight: '700',
   },
@@ -343,7 +344,7 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     overflow: 'hidden',
     marginBottom: 24,
-    boxShadow: '0px 8px 24px rgba(16, 185, 129, 0.2)',
+    boxShadow: '0px 8px 24px rgba(0, 184, 148, 0.2)',
     elevation: 8,
   },
   profileCardGradient: {
@@ -391,7 +392,7 @@ const styles = StyleSheet.create({
   logoutButton: {
     backgroundColor: colors.card,
     borderWidth: 2,
-    borderColor: '#EF4444',
+    borderColor: '#D63031',
     paddingHorizontal: 24,
     paddingVertical: 16,
     borderRadius: 25,
@@ -399,11 +400,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     minHeight: 56,
-    boxShadow: '0px 2px 8px rgba(239, 68, 68, 0.1)',
+    boxShadow: '0px 2px 8px rgba(214, 48, 49, 0.1)',
     elevation: 2,
   },
   logoutButtonText: {
-    color: '#EF4444',
+    color: '#D63031',
     fontSize: 17,
     fontWeight: '700',
     marginLeft: 10,

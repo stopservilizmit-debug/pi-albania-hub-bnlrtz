@@ -21,28 +21,28 @@ const categoryCards: CategoryCard[] = [
     title: 'Services',
     description: 'Local businesses',
     icon: 'business',
-    color: '#6366F1',
+    color: '#FF6B6B',
   },
   {
     id: 'events',
     title: 'Events',
     description: 'Happenings near you',
     icon: 'event',
-    color: '#14B8A6',
+    color: '#4ECDC4',
   },
   {
     id: 'community',
     title: 'Community',
     description: 'Connect & share',
     icon: 'chat',
-    color: '#8B5CF6',
+    color: '#A29BFE',
   },
   {
     id: 'guides',
     title: 'Guides',
     description: 'Tips & insights',
     icon: 'menu-book',
-    color: '#3B82F6',
+    color: '#FD79A8',
   },
 ];
 
@@ -78,14 +78,14 @@ export default function HomeScreen() {
         {/* Header */}
         <View style={styles.header}>
           <Text style={styles.appTitle}>Albania Hub</Text>
-          <Text style={styles.appSubtitle}>Community-driven local insights</Text>
+          <Text style={styles.appSubtitle}>Your gateway to local experiences</Text>
         </View>
 
         {/* Login Card - Only show if not authenticated */}
         {!authenticated && !loading && (
           <View style={styles.loginCardWrapper}>
             <LinearGradient
-              colors={['#6366F1', '#4F46E5', '#4338CA']}
+              colors={['#FF6B6B', '#FF8E8E', '#FFA5A5']}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
               style={styles.loginCardGradient}
@@ -93,16 +93,16 @@ export default function HomeScreen() {
               <View style={styles.loginIconWrapper}>
                 <View style={styles.loginIconCircle}>
                   <IconSymbol 
-                    ios_icon_name="person.circle.fill" 
-                    android_material_icon_name="account-circle" 
+                    ios_icon_name="sparkles" 
+                    android_material_icon_name="auto-awesome" 
                     size={56} 
-                    color="#6366F1" 
+                    color="#FF6B6B" 
                   />
                 </View>
               </View>
               
-              <Text style={styles.welcomeTitleNew}>Welcome to Albania Hub</Text>
-              <Text style={styles.welcomeSubtitleNew}>Connect with Pi Network to unlock exclusive features and join our community</Text>
+              <Text style={styles.welcomeTitleNew}>Discover Albania</Text>
+              <Text style={styles.welcomeSubtitleNew}>Join our community and explore authentic local experiences powered by Pi Network</Text>
               
               <TouchableOpacity 
                 style={styles.loginButtonNew}
@@ -114,9 +114,9 @@ export default function HomeScreen() {
                     ios_icon_name="lock.shield.fill" 
                     android_material_icon_name="verified-user" 
                     size={20} 
-                    color="#6366F1" 
+                    color="#FF6B6B" 
                   />
-                  <Text style={styles.loginButtonTextNew}>Login with Pi Network</Text>
+                  <Text style={styles.loginButtonTextNew}>Connect with Pi</Text>
                 </View>
               </TouchableOpacity>
 
@@ -128,7 +128,7 @@ export default function HomeScreen() {
                     size={16} 
                     color="#FFFFFF" 
                   />
-                  <Text style={styles.benefitText}>Access exclusive services</Text>
+                  <Text style={styles.benefitText}>Exclusive local services</Text>
                 </View>
                 <View style={styles.benefitItem}>
                   <IconSymbol 
@@ -137,7 +137,7 @@ export default function HomeScreen() {
                     size={16} 
                     color="#FFFFFF" 
                   />
-                  <Text style={styles.benefitText}>Join community events</Text>
+                  <Text style={styles.benefitText}>Community events & meetups</Text>
                 </View>
                 <View style={styles.benefitItem}>
                   <IconSymbol 
@@ -146,7 +146,7 @@ export default function HomeScreen() {
                     size={16} 
                     color="#FFFFFF" 
                   />
-                  <Text style={styles.benefitText}>Secure & verified</Text>
+                  <Text style={styles.benefitText}>Verified & secure</Text>
                 </View>
               </View>
             </LinearGradient>
@@ -157,7 +157,7 @@ export default function HomeScreen() {
         {authenticated && piUser && (
           <View style={styles.welcomeCard}>
             <LinearGradient
-              colors={['#10B981', '#059669']}
+              colors={['#00B894', '#00D2A0']}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
               style={styles.welcomeCardGradient}
@@ -175,8 +175,8 @@ export default function HomeScreen() {
 
         {/* Discover Section */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Discover Albania</Text>
-          <Text style={styles.sectionSubtitle}>Explore local insights and connect with your community</Text>
+          <Text style={styles.sectionTitle}>Explore Categories</Text>
+          <Text style={styles.sectionSubtitle}>Find what you need in our vibrant community</Text>
         </View>
 
         {/* Category Cards Grid */}
@@ -205,18 +205,18 @@ export default function HomeScreen() {
 
         {/* Quick Stats */}
         <View style={styles.statsCard}>
-          <Text style={styles.statsTitle}>Quick Stats</Text>
+          <Text style={styles.statsTitle}>Community Stats</Text>
           <View style={styles.statsRow}>
             <View style={styles.statItem}>
               <Text style={styles.statValue}>{servicesCount}</Text>
               <Text style={styles.statLabel}>Services</Text>
             </View>
             <View style={styles.statItem}>
-              <Text style={[styles.statValue, { color: '#14B8A6' }]}>{eventsCount}</Text>
+              <Text style={[styles.statValue, { color: '#4ECDC4' }]}>{eventsCount}</Text>
               <Text style={styles.statLabel}>Events</Text>
             </View>
             <View style={styles.statItem}>
-              <Text style={[styles.statValue, { color: '#8B5CF6' }]}>{membersCount}</Text>
+              <Text style={[styles.statValue, { color: '#A29BFE' }]}>{membersCount}</Text>
               <Text style={styles.statLabel}>Members</Text>
             </View>
           </View>
@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
     marginBottom: 32,
     borderRadius: 24,
     overflow: 'hidden',
-    boxShadow: '0px 8px 24px rgba(99, 102, 241, 0.25)',
+    boxShadow: '0px 8px 24px rgba(255, 107, 107, 0.25)',
     elevation: 8,
   },
   loginCardGradient: {
@@ -281,7 +281,8 @@ const styles = StyleSheet.create({
   },
   welcomeSubtitleNew: {
     fontSize: 15,
-    color: '#E0E7FF',
+    color: '#FFFFFF',
+    opacity: 0.95,
     textAlign: 'center',
     marginBottom: 24,
     lineHeight: 22,
@@ -304,7 +305,7 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   loginButtonTextNew: {
-    color: '#6366F1',
+    color: '#FF6B6B',
     fontSize: 17,
     fontWeight: '700',
   },
@@ -326,7 +327,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
     borderRadius: 16,
     overflow: 'hidden',
-    boxShadow: '0px 4px 12px rgba(16, 185, 129, 0.2)',
+    boxShadow: '0px 4px 12px rgba(0, 184, 148, 0.2)',
     elevation: 4,
   },
   welcomeCardGradient: {
@@ -391,7 +392,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   statsCard: {
-    backgroundColor: '#F0F9FF',
+    backgroundColor: '#FFF5F5',
     borderRadius: 16,
     padding: 20,
     marginBottom: 20,
@@ -412,7 +413,7 @@ const styles = StyleSheet.create({
   statValue: {
     fontSize: 28,
     fontWeight: '800',
-    color: '#6366F1',
+    color: '#FF6B6B',
     marginBottom: 4,
   },
   statLabel: {

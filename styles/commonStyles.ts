@@ -2,20 +2,20 @@
 import { StyleSheet, ViewStyle, TextStyle } from 'react-native';
 
 export const colors = {
-  primary: '#6366F1',      // Modern indigo
-  secondary: '#8B5CF6',    // Purple accent
-  accent: '#EC4899',       // Pink accent
+  primary: '#FF6B6B',      // Coral red - warm and inviting
+  secondary: '#4ECDC4',    // Turquoise - fresh and modern
+  accent: '#FFE66D',       // Sunny yellow accent
   background: '#FFFFFF',   // Light background
-  backgroundAlt: '#F9FAFB', // Slightly gray background
-  text: '#111827',         // Dark text
-  textSecondary: '#6B7280', // Gray text
+  backgroundAlt: '#F8F9FA', // Slightly gray background
+  text: '#2D3436',         // Dark charcoal text
+  textSecondary: '#636E72', // Gray text
   card: '#FFFFFF',         // White cards
-  border: '#E5E7EB',       // Light border
-  highlight: '#FEF3C7',    // Yellow highlight
-  success: '#10B981',      // Green
-  error: '#EF4444',        // Red
-  blue: '#3B82F6',         // Modern blue
-  teal: '#14B8A6',         // Teal
+  border: '#DFE6E9',       // Light border
+  highlight: '#FFF5E1',    // Cream highlight
+  success: '#00B894',      // Emerald green
+  error: '#D63031',        // Red
+  purple: '#A29BFE',       // Soft purple
+  orange: '#FD79A8',       // Soft pink-orange
 };
 
 export const buttonStyles = StyleSheet.create({
