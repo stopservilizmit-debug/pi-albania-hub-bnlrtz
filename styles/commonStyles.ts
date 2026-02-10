@@ -2,22 +2,23 @@
 import { StyleSheet, ViewStyle, TextStyle } from 'react-native';
 
 export const colors = {
-  primary: '#7C3AED',      // Deep purple - rich and elegant
-  secondary: '#A78BFA',    // Light purple - soft accent
-  accent: '#FFD700',       // Gold - luxurious accent
-  background: '#FFFFFF',   // Light background
-  backgroundAlt: '#F8F9FA', // Slightly gray background
-  text: '#2D3436',         // Dark charcoal text
-  textSecondary: '#636E72', // Gray text
+  // Modern teal and coral palette
+  primary: '#14B8A6',      // Teal - fresh and modern
+  secondary: '#06B6D4',    // Cyan - vibrant accent
+  accent: '#F97316',       // Orange - warm highlight
+  background: '#FFFFFF',   // Clean white
+  backgroundAlt: '#F8FAFC', // Subtle gray
+  text: '#0F172A',         // Deep slate
+  textSecondary: '#64748B', // Medium slate
   card: '#FFFFFF',         // White cards
-  border: '#DFE6E9',       // Light border
-  highlight: '#FFF5E1',    // Cream highlight
-  success: '#00B894',      // Emerald green
-  error: '#D63031',        // Red
-  purple: '#7C3AED',       // Deep purple
-  lightPurple: '#A78BFA',  // Light purple
-  gold: '#FFD700',         // Gold
-  darkPurple: '#5B21B6',   // Dark purple for gradients
+  border: '#E2E8F0',       // Light border
+  highlight: '#FEF3C7',    // Warm yellow highlight
+  success: '#10B981',      // Green
+  error: '#EF4444',        // Red
+  teal: '#14B8A6',         // Teal
+  cyan: '#06B6D4',         // Cyan
+  orange: '#F97316',       // Orange
+  darkTeal: '#0D9488',     // Dark teal for gradients
 };
 
 export const buttonStyles = StyleSheet.create({
