@@ -52,7 +52,7 @@ export default function ProfileScreen() {
         {/* Loading State */}
         {loading && (
           <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color="#DC2626" />
+            <ActivityIndicator size="large" color="#6366F1" />
             <Text style={styles.loadingText}>Loading Pi SDK...</Text>
           </View>
         )}
@@ -62,7 +62,7 @@ export default function ProfileScreen() {
           <View style={styles.loginSection}>
             <View style={styles.loginCardWrapper}>
               <LinearGradient
-                colors={['#DC2626', '#B91C1C', '#991B1B']}
+                colors={['#6366F1', '#4F46E5', '#4338CA']}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
                 style={styles.loginCardGradient}
@@ -73,7 +73,7 @@ export default function ProfileScreen() {
                       ios_icon_name="person.circle.fill" 
                       android_material_icon_name="account-circle" 
                       size={72} 
-                      color="#DC2626" 
+                      color="#6366F1" 
                     />
                   </View>
                 </View>
@@ -100,14 +100,14 @@ export default function ProfileScreen() {
                   activeOpacity={0.9}
                 >
                   {isLoggingIn ? (
-                    <ActivityIndicator color="#DC2626" />
+                    <ActivityIndicator color="#6366F1" />
                   ) : (
                     <View style={styles.loginButtonContent}>
                       <IconSymbol 
                         ios_icon_name="lock.shield.fill" 
                         android_material_icon_name="verified-user" 
                         size={20} 
-                        color="#DC2626" 
+                        color="#6366F1" 
                       />
                       <Text style={styles.loginButtonText}>Login with Pi Network</Text>
                     </View>
@@ -153,7 +153,7 @@ export default function ProfileScreen() {
           <View style={styles.profileSection}>
             <View style={styles.profileCardWrapper}>
               <LinearGradient
-                colors={['#059669', '#047857']}
+                colors={['#10B981', '#059669']}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
                 style={styles.profileCardGradient}
@@ -164,7 +164,7 @@ export default function ProfileScreen() {
                       ios_icon_name="person.circle.fill" 
                       android_material_icon_name="account-circle" 
                       size={80} 
-                      color="#059669" 
+                      color="#10B981" 
                     />
                   </View>
                 </View>
@@ -190,14 +190,14 @@ export default function ProfileScreen() {
               activeOpacity={0.8}
             >
               {isLoggingOut ? (
-                <ActivityIndicator color="#DC2626" />
+                <ActivityIndicator color="#EF4444" />
               ) : (
                 <>
                   <IconSymbol 
                     ios_icon_name="arrow.right.square.fill" 
                     android_material_icon_name="logout" 
                     size={20} 
-                    color="#DC2626" 
+                    color="#EF4444" 
                   />
                   <Text style={styles.logoutButtonText}>Logout</Text>
                 </>
@@ -242,10 +242,8 @@ const styles = StyleSheet.create({
   loginCardWrapper: {
     borderRadius: 24,
     overflow: 'hidden',
-    shadowColor: '#DC2626',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.2,
-    shadowRadius: 24,
+    boxShadow: '0px 8px 24px rgba(99, 102, 241, 0.25)',
+    elevation: 8,
   },
   loginCardGradient: {
     padding: 32,
@@ -261,10 +259,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
-    shadowRadius: 16,
+    boxShadow: '0px 4px 16px rgba(0, 0, 0, 0.15)',
+    elevation: 4,
   },
   loginTitle: {
     fontSize: 28,
@@ -275,7 +271,7 @@ const styles = StyleSheet.create({
   },
   loginSubtitle: {
     fontSize: 15,
-    color: '#FEE2E2',
+    color: '#E0E7FF',
     textAlign: 'center',
     marginBottom: 24,
     lineHeight: 22,
@@ -310,10 +306,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     minHeight: 56,
     marginBottom: 24,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
-    shadowRadius: 12,
+    boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.15)',
+    elevation: 4,
   },
   loginButtonContent: {
     flexDirection: 'row',
@@ -321,7 +315,7 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   loginButtonText: {
-    color: '#DC2626',
+    color: '#6366F1',
     fontSize: 17,
     fontWeight: '700',
   },
@@ -349,10 +343,8 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     overflow: 'hidden',
     marginBottom: 24,
-    shadowColor: '#059669',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.2,
-    shadowRadius: 24,
+    boxShadow: '0px 8px 24px rgba(16, 185, 129, 0.2)',
+    elevation: 8,
   },
   profileCardGradient: {
     padding: 32,
@@ -368,10 +360,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
-    shadowRadius: 16,
+    boxShadow: '0px 4px 16px rgba(0, 0, 0, 0.15)',
+    elevation: 4,
   },
   username: {
     fontSize: 28,
@@ -401,7 +391,7 @@ const styles = StyleSheet.create({
   logoutButton: {
     backgroundColor: colors.card,
     borderWidth: 2,
-    borderColor: '#DC2626',
+    borderColor: '#EF4444',
     paddingHorizontal: 24,
     paddingVertical: 16,
     borderRadius: 25,
@@ -409,13 +399,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     minHeight: 56,
-    shadowColor: '#DC2626',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
+    boxShadow: '0px 2px 8px rgba(239, 68, 68, 0.1)',
+    elevation: 2,
   },
   logoutButtonText: {
-    color: '#DC2626',
+    color: '#EF4444',
     fontSize: 17,
     fontWeight: '700',
     marginLeft: 10,

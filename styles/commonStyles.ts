@@ -2,8 +2,8 @@
 import { StyleSheet, ViewStyle, TextStyle } from 'react-native';
 
 export const colors = {
-  primary: '#7C3AED',      // Purple accent for Albania theme
-  secondary: '#A78BFA',    // Light purple
+  primary: '#6366F1',      // Modern indigo
+  secondary: '#8B5CF6',    // Purple accent
   accent: '#EC4899',       // Pink accent
   background: '#FFFFFF',   // Light background
   backgroundAlt: '#F9FAFB', // Slightly gray background
@@ -14,6 +14,8 @@ export const colors = {
   highlight: '#FEF3C7',    // Yellow highlight
   success: '#10B981',      // Green
   error: '#EF4444',        // Red
+  blue: '#3B82F6',         // Modern blue
+  teal: '#14B8A6',         // Teal
 };
 
 export const buttonStyles = StyleSheet.create({

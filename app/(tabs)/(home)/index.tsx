@@ -21,28 +21,28 @@ const categoryCards: CategoryCard[] = [
     title: 'Services',
     description: 'Local businesses',
     icon: 'business',
-    color: '#DC2626',
+    color: '#6366F1',
   },
   {
     id: 'events',
     title: 'Events',
     description: 'Happenings near you',
     icon: 'event',
-    color: '#059669',
+    color: '#14B8A6',
   },
   {
     id: 'community',
     title: 'Community',
     description: 'Connect & share',
     icon: 'chat',
-    color: '#059669',
+    color: '#8B5CF6',
   },
   {
     id: 'guides',
     title: 'Guides',
     description: 'Tips & insights',
     icon: 'menu-book',
-    color: '#DC2626',
+    color: '#3B82F6',
   },
 ];
 
@@ -85,7 +85,7 @@ export default function HomeScreen() {
         {!authenticated && !loading && (
           <View style={styles.loginCardWrapper}>
             <LinearGradient
-              colors={['#DC2626', '#B91C1C', '#991B1B']}
+              colors={['#6366F1', '#4F46E5', '#4338CA']}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
               style={styles.loginCardGradient}
@@ -96,7 +96,7 @@ export default function HomeScreen() {
                     ios_icon_name="person.circle.fill" 
                     android_material_icon_name="account-circle" 
                     size={56} 
-                    color="#DC2626" 
+                    color="#6366F1" 
                   />
                 </View>
               </View>
@@ -114,7 +114,7 @@ export default function HomeScreen() {
                     ios_icon_name="lock.shield.fill" 
                     android_material_icon_name="verified-user" 
                     size={20} 
-                    color="#DC2626" 
+                    color="#6366F1" 
                   />
                   <Text style={styles.loginButtonTextNew}>Login with Pi Network</Text>
                 </View>
@@ -157,7 +157,7 @@ export default function HomeScreen() {
         {authenticated && piUser && (
           <View style={styles.welcomeCard}>
             <LinearGradient
-              colors={['#059669', '#047857']}
+              colors={['#10B981', '#059669']}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
               style={styles.welcomeCardGradient}
@@ -212,11 +212,11 @@ export default function HomeScreen() {
               <Text style={styles.statLabel}>Services</Text>
             </View>
             <View style={styles.statItem}>
-              <Text style={[styles.statValue, { color: '#059669' }]}>{eventsCount}</Text>
+              <Text style={[styles.statValue, { color: '#14B8A6' }]}>{eventsCount}</Text>
               <Text style={styles.statLabel}>Events</Text>
             </View>
             <View style={styles.statItem}>
-              <Text style={[styles.statValue, { color: '#DC2626' }]}>{membersCount}</Text>
+              <Text style={[styles.statValue, { color: '#8B5CF6' }]}>{membersCount}</Text>
               <Text style={styles.statLabel}>Members</Text>
             </View>
           </View>
@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
     marginBottom: 32,
     borderRadius: 24,
     overflow: 'hidden',
-    boxShadow: '0px 8px 24px rgba(220, 38, 38, 0.2)',
+    boxShadow: '0px 8px 24px rgba(99, 102, 241, 0.25)',
     elevation: 8,
   },
   loginCardGradient: {
@@ -281,7 +281,7 @@ const styles = StyleSheet.create({
   },
   welcomeSubtitleNew: {
     fontSize: 15,
-    color: '#FEE2E2',
+    color: '#E0E7FF',
     textAlign: 'center',
     marginBottom: 24,
     lineHeight: 22,
@@ -304,7 +304,7 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   loginButtonTextNew: {
-    color: '#DC2626',
+    color: '#6366F1',
     fontSize: 17,
     fontWeight: '700',
   },
@@ -326,7 +326,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
     borderRadius: 16,
     overflow: 'hidden',
-    boxShadow: '0px 4px 12px rgba(5, 150, 105, 0.2)',
+    boxShadow: '0px 4px 12px rgba(16, 185, 129, 0.2)',
     elevation: 4,
   },
   welcomeCardGradient: {
@@ -391,7 +391,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   statsCard: {
-    backgroundColor: '#FEF2F2',
+    backgroundColor: '#F0F9FF',
     borderRadius: 16,
     padding: 20,
     marginBottom: 20,
@@ -412,7 +412,7 @@ const styles = StyleSheet.create({
   statValue: {
     fontSize: 28,
     fontWeight: '800',
-    color: '#DC2626',
+    color: '#6366F1',
     marginBottom: 4,
   },
   statLabel: {
