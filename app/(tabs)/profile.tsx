@@ -52,7 +52,7 @@ export default function ProfileScreen() {
         {/* Loading State */}
         {loading && (
           <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color="#FF6B6B" />
+            <ActivityIndicator size="large" color="#7C3AED" />
             <Text style={styles.loadingText}>Loading Pi SDK...</Text>
           </View>
         )}
@@ -62,7 +62,7 @@ export default function ProfileScreen() {
           <View style={styles.loginSection}>
             <View style={styles.loginCardWrapper}>
               <LinearGradient
-                colors={['#FF6B6B', '#FF8E8E', '#FFA5A5']}
+                colors={['#7C3AED', '#9333EA', '#A855F7']}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
                 style={styles.loginCardGradient}
@@ -73,7 +73,7 @@ export default function ProfileScreen() {
                       ios_icon_name="person.circle.fill" 
                       android_material_icon_name="account-circle" 
                       size={72} 
-                      color="#FF6B6B" 
+                      color="#7C3AED" 
                     />
                   </View>
                 </View>
@@ -100,14 +100,14 @@ export default function ProfileScreen() {
                   activeOpacity={0.9}
                 >
                   {isLoggingIn ? (
-                    <ActivityIndicator color="#FF6B6B" />
+                    <ActivityIndicator color="#7C3AED" />
                   ) : (
                     <View style={styles.loginButtonContent}>
                       <IconSymbol 
                         ios_icon_name="lock.shield.fill" 
                         android_material_icon_name="verified-user" 
                         size={20} 
-                        color="#FF6B6B" 
+                        color="#7C3AED" 
                       />
                       <Text style={styles.loginButtonText}>Connect with Pi</Text>
                     </View>
@@ -120,7 +120,7 @@ export default function ProfileScreen() {
                       ios_icon_name="checkmark.circle.fill" 
                       android_material_icon_name="check-circle" 
                       size={16} 
-                      color="#FFFFFF" 
+                      color="#FFD700" 
                     />
                     <Text style={styles.benefitText}>Secure authentication</Text>
                   </View>
@@ -129,7 +129,7 @@ export default function ProfileScreen() {
                       ios_icon_name="checkmark.circle.fill" 
                       android_material_icon_name="check-circle" 
                       size={16} 
-                      color="#FFFFFF" 
+                      color="#FFD700" 
                     />
                     <Text style={styles.benefitText}>Personalized experience</Text>
                   </View>
@@ -138,7 +138,7 @@ export default function ProfileScreen() {
                       ios_icon_name="checkmark.circle.fill" 
                       android_material_icon_name="check-circle" 
                       size={16} 
-                      color="#FFFFFF" 
+                      color="#FFD700" 
                     />
                     <Text style={styles.benefitText}>Community access</Text>
                   </View>
@@ -153,7 +153,7 @@ export default function ProfileScreen() {
           <View style={styles.profileSection}>
             <View style={styles.profileCardWrapper}>
               <LinearGradient
-                colors={['#00B894', '#00D2A0']}
+                colors={['#7C3AED', '#9333EA']}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
                 style={styles.profileCardGradient}
@@ -164,7 +164,7 @@ export default function ProfileScreen() {
                       ios_icon_name="person.circle.fill" 
                       android_material_icon_name="account-circle" 
                       size={80} 
-                      color="#00B894" 
+                      color="#7C3AED" 
                     />
                   </View>
                 </View>
@@ -176,7 +176,7 @@ export default function ProfileScreen() {
                     ios_icon_name="checkmark.seal.fill" 
                     android_material_icon_name="verified" 
                     size={18} 
-                    color="#FFFFFF" 
+                    color="#FFD700" 
                   />
                   <Text style={styles.verifiedText}>Verified Pi User</Text>
                 </View>
@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
   loginCardWrapper: {
     borderRadius: 24,
     overflow: 'hidden',
-    boxShadow: '0px 8px 24px rgba(255, 107, 107, 0.25)',
+    boxShadow: '0px 8px 24px rgba(124, 58, 237, 0.3)',
     elevation: 8,
   },
   loginCardGradient: {
@@ -265,13 +265,13 @@ const styles = StyleSheet.create({
   loginTitle: {
     fontSize: 28,
     fontWeight: '800',
-    color: '#FFFFFF',
+    color: '#FFD700',
     marginBottom: 12,
     textAlign: 'center',
   },
   loginSubtitle: {
     fontSize: 15,
-    color: '#FFFFFF',
+    color: '#FFD700',
     opacity: 0.95,
     textAlign: 'center',
     marginBottom: 24,
@@ -316,7 +316,7 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   loginButtonText: {
-    color: '#FF6B6B',
+    color: '#7C3AED',
     fontSize: 17,
     fontWeight: '700',
   },
@@ -334,7 +334,7 @@ const styles = StyleSheet.create({
   },
   benefitText: {
     fontSize: 14,
-    color: '#FFFFFF',
+    color: '#FFD700',
     fontWeight: '500',
   },
   profileSection: {
@@ -344,7 +344,7 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     overflow: 'hidden',
     marginBottom: 24,
-    boxShadow: '0px 8px 24px rgba(0, 184, 148, 0.2)',
+    boxShadow: '0px 8px 24px rgba(124, 58, 237, 0.25)',
     elevation: 8,
   },
   profileCardGradient: {
@@ -367,18 +367,19 @@ const styles = StyleSheet.create({
   username: {
     fontSize: 28,
     fontWeight: '800',
-    color: '#FFFFFF',
+    color: '#FFD700',
     marginBottom: 6,
   },
   userId: {
     fontSize: 14,
-    color: '#D1FAE5',
+    color: '#FFD700',
+    opacity: 0.8,
     marginBottom: 16,
   },
   verifiedBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: 'rgba(255, 215, 0, 0.2)',
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 20,
@@ -386,7 +387,7 @@ const styles = StyleSheet.create({
   },
   verifiedText: {
     fontSize: 14,
-    color: '#FFFFFF',
+    color: '#FFD700',
     fontWeight: '600',
   },
   logoutButton: {

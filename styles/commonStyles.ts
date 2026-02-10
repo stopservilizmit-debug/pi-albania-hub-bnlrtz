@@ -2,9 +2,9 @@
 import { StyleSheet, ViewStyle, TextStyle } from 'react-native';
 
 export const colors = {
-  primary: '#FF6B6B',      // Coral red - warm and inviting
-  secondary: '#4ECDC4',    // Turquoise - fresh and modern
-  accent: '#FFE66D',       // Sunny yellow accent
+  primary: '#7C3AED',      // Deep purple - rich and elegant
+  secondary: '#A78BFA',    // Light purple - soft accent
+  accent: '#FFD700',       // Gold - luxurious accent
   background: '#FFFFFF',   // Light background
   backgroundAlt: '#F8F9FA', // Slightly gray background
   text: '#2D3436',         // Dark charcoal text
@@ -14,8 +14,10 @@ export const colors = {
   highlight: '#FFF5E1',    // Cream highlight
   success: '#00B894',      // Emerald green
   error: '#D63031',        // Red
-  purple: '#A29BFE',       // Soft purple
-  orange: '#FD79A8',       // Soft pink-orange
+  purple: '#7C3AED',       // Deep purple
+  lightPurple: '#A78BFA',  // Light purple
+  gold: '#FFD700',         // Gold
+  darkPurple: '#5B21B6',   // Dark purple for gradients
 };
 
 export const buttonStyles = StyleSheet.create({
