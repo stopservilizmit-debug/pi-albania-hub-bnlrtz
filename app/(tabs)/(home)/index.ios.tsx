@@ -5,6 +5,7 @@ import { useTheme } from "@react-navigation/native";
 import { colors } from "@/styles/commonStyles";
 import { IconSymbol } from "@/components/IconSymbol";
 import { usePi } from "@/contexts/PiContext";
+import { LinearGradient } from 'expo-linear-gradient';
 
 interface CategoryCard {
   id: string;
@@ -48,11 +49,20 @@ const categoryCards: CategoryCard[] = [
 export default function HomeScreen() {
   console.log('HomeScreen: Rendering home screen (iOS)');
   const theme = useTheme();
-  const { authenticated, piUser, loading } = usePi();
+  const { authenticated, piUser, loading, signInWithPi } = usePi();
 
   const handleCardPress = (cardId: string) => {
     console.log('HomeScreen: User tapped card:', cardId);
     alert(`${cardId} section coming soon!`);
+  };
+
+  const handleLogin = async () => {
+    console.log('HomeScreen: User tapped Login with Pi button');
+    try {
+      await signInWithPi();
+    } catch (error) {
+      console.error('HomeScreen: Login error:', error);
+    }
   };
 
   const servicesCount = '150+';
@@ -73,40 +83,93 @@ export default function HomeScreen() {
 
         {/* Login Card - Only show if not authenticated */}
         {!authenticated && !loading && (
-          <View style={styles.loginCard}>
-            <View style={styles.loginIconContainer}>
-              <IconSymbol 
-                ios_icon_name="person.circle" 
-                android_material_icon_name="account-circle" 
-                size={48} 
-                color="#DC2626" 
-              />
-            </View>
-            <Text style={styles.welcomeTitle}>Welcome!</Text>
-            <Text style={styles.welcomeSubtitle}>Login with Pi to access full features</Text>
-            <TouchableOpacity 
-              style={styles.loginButton}
-              onPress={() => {
-                console.log('User tapped Login with Pi button');
-                alert('Pi login will be implemented');
-              }}
-              activeOpacity={0.8}
+          <View style={styles.loginCardWrapper}>
+            <LinearGradient
+              colors={['#DC2626', '#B91C1C', '#991B1B']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={styles.loginCardGradient}
             >
-              <Text style={styles.loginButtonText}>Login with Pi</Text>
-            </TouchableOpacity>
+              <View style={styles.loginIconWrapper}>
+                <View style={styles.loginIconCircle}>
+                  <IconSymbol 
+                    ios_icon_name="person.circle.fill" 
+                    android_material_icon_name="account-circle" 
+                    size={56} 
+                    color="#DC2626" 
+                  />
+                </View>
+              </View>
+              
+              <Text style={styles.welcomeTitleNew}>Welcome to Albania Hub</Text>
+              <Text style={styles.welcomeSubtitleNew}>Connect with Pi Network to unlock exclusive features and join our community</Text>
+              
+              <TouchableOpacity 
+                style={styles.loginButtonNew}
+                onPress={handleLogin}
+                activeOpacity={0.9}
+              >
+                <View style={styles.loginButtonContent}>
+                  <IconSymbol 
+                    ios_icon_name="lock.shield.fill" 
+                    android_material_icon_name="verified-user" 
+                    size={20} 
+                    color="#DC2626" 
+                  />
+                  <Text style={styles.loginButtonTextNew}>Login with Pi Network</Text>
+                </View>
+              </TouchableOpacity>
+
+              <View style={styles.benefitsContainer}>
+                <View style={styles.benefitItem}>
+                  <IconSymbol 
+                    ios_icon_name="checkmark.circle.fill" 
+                    android_material_icon_name="check-circle" 
+                    size={16} 
+                    color="#FFFFFF" 
+                  />
+                  <Text style={styles.benefitText}>Access exclusive services</Text>
+                </View>
+                <View style={styles.benefitItem}>
+                  <IconSymbol 
+                    ios_icon_name="checkmark.circle.fill" 
+                    android_material_icon_name="check-circle" 
+                    size={16} 
+                    color="#FFFFFF" 
+                  />
+                  <Text style={styles.benefitText}>Join community events</Text>
+                </View>
+                <View style={styles.benefitItem}>
+                  <IconSymbol 
+                    ios_icon_name="checkmark.circle.fill" 
+                    android_material_icon_name="check-circle" 
+                    size={16} 
+                    color="#FFFFFF" 
+                  />
+                  <Text style={styles.benefitText}>Secure & verified</Text>
+                </View>
+              </View>
+            </LinearGradient>
           </View>
         )}
 
         {/* Welcome message for authenticated users */}
         {authenticated && piUser && (
           <View style={styles.welcomeCard}>
-            <IconSymbol 
-              ios_icon_name="checkmark.circle.fill" 
-              android_material_icon_name="check-circle" 
-              size={24} 
-              color="#059669" 
-            />
-            <Text style={styles.welcomeUserText}>Welcome back, {piUser.username}!</Text>
+            <LinearGradient
+              colors={['#059669', '#047857']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={styles.welcomeCardGradient}
+            >
+              <IconSymbol 
+                ios_icon_name="checkmark.circle.fill" 
+                android_material_icon_name="check-circle" 
+                size={24} 
+                color="#FFFFFF" 
+              />
+              <Text style={styles.welcomeUserText}>Welcome back, {piUser.username}!</Text>
+            </LinearGradient>
           </View>
         )}
 
@@ -185,65 +248,106 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: colors.textSecondary,
   },
-  loginCard: {
-    backgroundColor: colors.card,
-    borderRadius: 20,
-    padding: 24,
-    alignItems: 'center',
+  loginCardWrapper: {
     marginBottom: 32,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 12,
+    borderRadius: 24,
+    overflow: 'hidden',
+    shadowColor: '#DC2626',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.2,
+    shadowRadius: 24,
   },
-  loginIconContainer: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: '#FEE2E2',
-    justifyContent: 'center',
+  loginCardGradient: {
+    padding: 28,
     alignItems: 'center',
-    marginBottom: 16,
   },
-  welcomeTitle: {
-    fontSize: 24,
-    fontWeight: '800',
-    color: colors.text,
-    marginBottom: 8,
-  },
-  welcomeSubtitle: {
-    fontSize: 15,
-    color: colors.textSecondary,
-    textAlign: 'center',
+  loginIconWrapper: {
     marginBottom: 20,
   },
-  loginButton: {
-    backgroundColor: '#DC2626',
-    paddingHorizontal: 48,
-    paddingVertical: 14,
-    borderRadius: 25,
+  loginIconCircle: {
+    width: 96,
+    height: 96,
+    borderRadius: 48,
+    backgroundColor: '#FFFFFF',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 16,
+  },
+  welcomeTitleNew: {
+    fontSize: 26,
+    fontWeight: '800',
+    color: '#FFFFFF',
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  welcomeSubtitleNew: {
+    fontSize: 15,
+    color: '#FEE2E2',
+    textAlign: 'center',
+    marginBottom: 24,
+    lineHeight: 22,
+    paddingHorizontal: 10,
+  },
+  loginButtonNew: {
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 32,
+    paddingVertical: 16,
+    borderRadius: 30,
     width: '100%',
     alignItems: 'center',
+    marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 12,
   },
-  loginButtonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: '700',
-  },
-  welcomeCard: {
+  loginButtonContent: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#D1FAE5',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderRadius: 12,
+    gap: 10,
+  },
+  loginButtonTextNew: {
+    color: '#DC2626',
+    fontSize: 17,
+    fontWeight: '700',
+  },
+  benefitsContainer: {
+    width: '100%',
+    gap: 10,
+  },
+  benefitItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  benefitText: {
+    fontSize: 14,
+    color: '#FFFFFF',
+    fontWeight: '500',
+  },
+  welcomeCard: {
     marginBottom: 24,
+    borderRadius: 16,
+    overflow: 'hidden',
+    shadowColor: '#059669',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 12,
+  },
+  welcomeCardGradient: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 16,
   },
   welcomeUserText: {
-    fontSize: 15,
-    fontWeight: '600',
-    color: '#065F46',
-    marginLeft: 10,
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#FFFFFF',
+    marginLeft: 12,
   },
   section: {
     marginBottom: 20,

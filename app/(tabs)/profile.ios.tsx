@@ -5,6 +5,7 @@ import { useTheme } from "@react-navigation/native";
 import { colors } from "@/styles/commonStyles";
 import { usePi } from "@/contexts/PiContext";
 import { IconSymbol } from "@/components/IconSymbol";
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default function ProfileScreen() {
   console.log('ProfileScreen: Rendering profile screen (iOS)');
@@ -51,7 +52,7 @@ export default function ProfileScreen() {
         {/* Loading State */}
         {loading && (
           <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color={colors.primary} />
+            <ActivityIndicator size="large" color="#DC2626" />
             <Text style={styles.loadingText}>Loading Pi SDK...</Text>
           </View>
         )}
@@ -59,70 +60,127 @@ export default function ProfileScreen() {
         {/* Not Authenticated */}
         {!loading && !authenticated && (
           <View style={styles.loginSection}>
-            <View style={styles.iconContainer}>
-              <IconSymbol 
-                ios_icon_name="person.circle" 
-                android_material_icon_name="account-circle" 
-                size={80} 
-                color={colors.textSecondary} 
-              />
-            </View>
-            <Text style={styles.loginTitle}>Not Logged In</Text>
-            <Text style={styles.loginSubtitle}>Login with Pi to access your profile and full features</Text>
-            
-            {!piSDKLoaded && (
-              <View style={styles.warningCard}>
-                <IconSymbol 
-                  ios_icon_name="exclamationmark.triangle" 
-                  android_material_icon_name="warning" 
-                  size={24} 
-                  color="#F59E0B" 
-                />
-                <Text style={styles.warningText}>Pi SDK not available. Please open this app in Pi Browser.</Text>
-              </View>
-            )}
+            <View style={styles.loginCardWrapper}>
+              <LinearGradient
+                colors={['#DC2626', '#B91C1C', '#991B1B']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={styles.loginCardGradient}
+              >
+                <View style={styles.iconCircleWrapper}>
+                  <View style={styles.iconCircle}>
+                    <IconSymbol 
+                      ios_icon_name="person.circle.fill" 
+                      android_material_icon_name="account-circle" 
+                      size={72} 
+                      color="#DC2626" 
+                    />
+                  </View>
+                </View>
+                
+                <Text style={styles.loginTitle}>Join Albania Hub</Text>
+                <Text style={styles.loginSubtitle}>Connect with Pi Network to unlock your profile and access exclusive community features</Text>
+                
+                {!piSDKLoaded && (
+                  <View style={styles.warningCard}>
+                    <IconSymbol 
+                      ios_icon_name="exclamationmark.triangle.fill" 
+                      android_material_icon_name="warning" 
+                      size={20} 
+                      color="#F59E0B" 
+                    />
+                    <Text style={styles.warningText}>Pi SDK not available. Please open in Pi Browser.</Text>
+                  </View>
+                )}
 
-            <TouchableOpacity 
-              style={[styles.loginButton, (!piSDKLoaded || isProcessing) && styles.buttonDisabled]}
-              onPress={handleLogin}
-              disabled={!piSDKLoaded || isProcessing}
-              activeOpacity={0.8}
-            >
-              {isLoggingIn ? (
-                <ActivityIndicator color="#FFFFFF" />
-              ) : (
-                <Text style={styles.loginButtonText}>Login with Pi</Text>
-              )}
-            </TouchableOpacity>
+                <TouchableOpacity 
+                  style={[styles.loginButton, (!piSDKLoaded || isProcessing) && styles.buttonDisabled]}
+                  onPress={handleLogin}
+                  disabled={!piSDKLoaded || isProcessing}
+                  activeOpacity={0.9}
+                >
+                  {isLoggingIn ? (
+                    <ActivityIndicator color="#DC2626" />
+                  ) : (
+                    <View style={styles.loginButtonContent}>
+                      <IconSymbol 
+                        ios_icon_name="lock.shield.fill" 
+                        android_material_icon_name="verified-user" 
+                        size={20} 
+                        color="#DC2626" 
+                      />
+                      <Text style={styles.loginButtonText}>Login with Pi Network</Text>
+                    </View>
+                  )}
+                </TouchableOpacity>
+
+                <View style={styles.benefitsContainer}>
+                  <View style={styles.benefitItem}>
+                    <IconSymbol 
+                      ios_icon_name="checkmark.circle.fill" 
+                      android_material_icon_name="check-circle" 
+                      size={16} 
+                      color="#FFFFFF" 
+                    />
+                    <Text style={styles.benefitText}>Secure authentication</Text>
+                  </View>
+                  <View style={styles.benefitItem}>
+                    <IconSymbol 
+                      ios_icon_name="checkmark.circle.fill" 
+                      android_material_icon_name="check-circle" 
+                      size={16} 
+                      color="#FFFFFF" 
+                    />
+                    <Text style={styles.benefitText}>Personalized experience</Text>
+                  </View>
+                  <View style={styles.benefitItem}>
+                    <IconSymbol 
+                      ios_icon_name="checkmark.circle.fill" 
+                      android_material_icon_name="check-circle" 
+                      size={16} 
+                      color="#FFFFFF" 
+                    />
+                    <Text style={styles.benefitText}>Community access</Text>
+                  </View>
+                </View>
+              </LinearGradient>
+            </View>
           </View>
         )}
 
         {/* Authenticated */}
         {!loading && authenticated && piUser && (
           <View style={styles.profileSection}>
-            <View style={styles.profileCard}>
-              <View style={styles.avatarContainer}>
-                <IconSymbol 
-                  ios_icon_name="person.circle.fill" 
-                  android_material_icon_name="account-circle" 
-                  size={80} 
-                  color={colors.primary} 
-                />
-              </View>
-              <Text style={styles.username}>{piUser.username}</Text>
-              <Text style={styles.userId}>ID: {piUser.uid}</Text>
-            </View>
-
-            <View style={styles.infoCard}>
-              <View style={styles.infoRow}>
-                <IconSymbol 
-                  ios_icon_name="checkmark.circle.fill" 
-                  android_material_icon_name="check-circle" 
-                  size={24} 
-                  color="#059669" 
-                />
-                <Text style={styles.infoText}>Authenticated with Pi Network</Text>
-              </View>
+            <View style={styles.profileCardWrapper}>
+              <LinearGradient
+                colors={['#059669', '#047857']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={styles.profileCardGradient}
+              >
+                <View style={styles.avatarCircleWrapper}>
+                  <View style={styles.avatarCircle}>
+                    <IconSymbol 
+                      ios_icon_name="person.circle.fill" 
+                      android_material_icon_name="account-circle" 
+                      size={80} 
+                      color="#059669" 
+                    />
+                  </View>
+                </View>
+                <Text style={styles.username}>{piUser.username}</Text>
+                <Text style={styles.userId}>ID: {piUser.uid}</Text>
+                
+                <View style={styles.verifiedBadge}>
+                  <IconSymbol 
+                    ios_icon_name="checkmark.seal.fill" 
+                    android_material_icon_name="verified" 
+                    size={18} 
+                    color="#FFFFFF" 
+                  />
+                  <Text style={styles.verifiedText}>Verified Pi User</Text>
+                </View>
+              </LinearGradient>
             </View>
 
             <TouchableOpacity 
@@ -136,7 +194,7 @@ export default function ProfileScreen() {
               ) : (
                 <>
                   <IconSymbol 
-                    ios_icon_name="arrow.right.square" 
+                    ios_icon_name="arrow.right.square.fill" 
                     android_material_icon_name="logout" 
                     size={20} 
                     color="#DC2626" 
@@ -179,118 +237,187 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   loginSection: {
-    alignItems: 'center',
-    paddingVertical: 40,
+    paddingVertical: 20,
   },
-  iconContainer: {
+  loginCardWrapper: {
+    borderRadius: 24,
+    overflow: 'hidden',
+    shadowColor: '#DC2626',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.2,
+    shadowRadius: 24,
+  },
+  loginCardGradient: {
+    padding: 32,
+    alignItems: 'center',
+  },
+  iconCircleWrapper: {
     marginBottom: 24,
   },
+  iconCircle: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    backgroundColor: '#FFFFFF',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 16,
+  },
   loginTitle: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: '800',
-    color: colors.text,
-    marginBottom: 8,
+    color: '#FFFFFF',
+    marginBottom: 12,
+    textAlign: 'center',
   },
   loginSubtitle: {
     fontSize: 15,
-    color: colors.textSecondary,
+    color: '#FEE2E2',
     textAlign: 'center',
-    marginBottom: 32,
-    paddingHorizontal: 20,
+    marginBottom: 24,
+    lineHeight: 22,
+    paddingHorizontal: 10,
   },
   warningCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#FEF3C7',
+    backgroundColor: 'rgba(254, 243, 199, 0.2)',
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderRadius: 12,
     marginBottom: 24,
     width: '100%',
+    borderWidth: 1,
+    borderColor: 'rgba(245, 158, 11, 0.3)',
   },
   warningText: {
-    fontSize: 14,
-    color: '#92400E',
+    fontSize: 13,
+    color: '#FEF3C7',
     marginLeft: 10,
     flex: 1,
+    fontWeight: '500',
   },
   loginButton: {
-    backgroundColor: '#DC2626',
-    paddingHorizontal: 48,
-    paddingVertical: 14,
-    borderRadius: 25,
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 32,
+    paddingVertical: 16,
+    borderRadius: 30,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    minHeight: 50,
+    minHeight: 56,
+    marginBottom: 24,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 12,
+  },
+  loginButtonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
   },
   loginButtonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
+    color: '#DC2626',
+    fontSize: 17,
     fontWeight: '700',
   },
   buttonDisabled: {
     opacity: 0.5,
   },
+  benefitsContainer: {
+    width: '100%',
+    gap: 12,
+  },
+  benefitItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  benefitText: {
+    fontSize: 14,
+    color: '#FFFFFF',
+    fontWeight: '500',
+  },
   profileSection: {
     paddingVertical: 20,
   },
-  profileCard: {
-    backgroundColor: colors.card,
-    borderRadius: 20,
+  profileCardWrapper: {
+    borderRadius: 24,
+    overflow: 'hidden',
+    marginBottom: 24,
+    shadowColor: '#059669',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.2,
+    shadowRadius: 24,
+  },
+  profileCardGradient: {
     padding: 32,
     alignItems: 'center',
-    marginBottom: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 12,
   },
-  avatarContainer: {
-    marginBottom: 16,
+  avatarCircleWrapper: {
+    marginBottom: 20,
+  },
+  avatarCircle: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    backgroundColor: '#FFFFFF',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 16,
   },
   username: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: '800',
-    color: colors.text,
-    marginBottom: 4,
+    color: '#FFFFFF',
+    marginBottom: 6,
   },
   userId: {
     fontSize: 14,
-    color: colors.textSecondary,
+    color: '#D1FAE5',
+    marginBottom: 16,
   },
-  infoCard: {
-    backgroundColor: '#D1FAE5',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 24,
-  },
-  infoRow: {
+  verifiedBadge: {
     flexDirection: 'row',
     alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
+    gap: 8,
   },
-  infoText: {
-    fontSize: 15,
+  verifiedText: {
+    fontSize: 14,
+    color: '#FFFFFF',
     fontWeight: '600',
-    color: '#065F46',
-    marginLeft: 10,
   },
   logoutButton: {
     backgroundColor: colors.card,
     borderWidth: 2,
     borderColor: '#DC2626',
     paddingHorizontal: 24,
-    paddingVertical: 14,
+    paddingVertical: 16,
     borderRadius: 25,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    minHeight: 50,
+    minHeight: 56,
+    shadowColor: '#DC2626',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
   },
   logoutButtonText: {
     color: '#DC2626',
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: '700',
-    marginLeft: 8,
+    marginLeft: 10,
   },
 });
