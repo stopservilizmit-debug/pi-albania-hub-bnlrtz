@@ -1,4 +1,3 @@
-
 const { getDefaultConfig } = require('expo/metro-config');
 const { FileStore } = require('metro-cache');
 const path = require('path');
@@ -9,13 +8,8 @@ const config = getDefaultConfig(__dirname);
 config.resolver.unstable_enablePackageExports = true;
 
 // Use turborepo to restore the cache when possible
-// Add cache version to force rebuild when needed
 config.cacheStores = [
-    new FileStore({ 
-      root: path.join(__dirname, 'node_modules', '.cache', 'metro'),
-      // Force cache invalidation by changing this version
-      cacheVersion: 'v2-no-editable-components'
-    }),
+    new FileStore({ root: path.join(__dirname, 'node_modules', '.cache', 'metro') }),
   ];
 
 // Custom server middleware to receive console.log messages from the app
@@ -31,6 +25,12 @@ if (!fs.existsSync(logDir)) {
 config.server = config.server || {};
 config.server.enhanceMiddleware = (middleware) => {
   return (req, res, next) => {
+
+    // DEBUG: log all metro bundle requests
+    if (req.url.includes('index.bundle') || req.url.includes('.bundle')) {
+      console.log('[METRO] Request:', req.method, req.url);
+    }
+
     // Extract pathname without query params for matching
     const pathname = req.url.split('?')[0];
 

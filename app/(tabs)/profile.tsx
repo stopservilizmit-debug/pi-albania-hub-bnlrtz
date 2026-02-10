@@ -1,44 +1,51 @@
 
-import React from "react";
+import React, { useState } from "react";
+import { ScrollView, StyleSheet, View, Text, TouchableOpacity, Platform, ActivityIndicator } from "react-native";
 import { useTheme } from "@react-navigation/native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { IconSymbol } from "@/components/IconSymbol";
-import { View, Text, StyleSheet, ScrollView, Platform, TouchableOpacity, ActivityIndicator } from "react-native";
 import { colors } from "@/styles/commonStyles";
 import { usePi } from "@/contexts/PiContext";
+import { IconSymbol } from "@/components/IconSymbol";
 
 export default function ProfileScreen() {
   console.log('ProfileScreen: Rendering profile screen');
   const theme = useTheme();
-  const { piUser, authenticated, loading, piSDKLoaded, signInWithPi, signOut } = usePi();
+  const { authenticated, piUser, loading, signInWithPi, signOut, piSDKLoaded } = usePi();
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const handleLogin = async () => {
-    console.log('ProfileScreen: User tapped Login with Pi button');
-    await signInWithPi();
+    console.log('ProfileScreen: User tapped login button');
+    setIsLoggingIn(true);
+    try {
+      await signInWithPi();
+    } catch (error) {
+      console.error('ProfileScreen: Login error:', error);
+    } finally {
+      setIsLoggingIn(false);
+    }
   };
 
   const handleLogout = () => {
-    console.log('ProfileScreen: User tapped Logout button');
-    signOut();
+    console.log('ProfileScreen: User tapped logout button');
+    setIsLoggingOut(true);
+    try {
+      signOut();
+    } finally {
+      setIsLoggingOut(false);
+    }
   };
 
+  const isProcessing = isLoggingIn || isLoggingOut;
+
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['top']}>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
         {/* Header */}
         <View style={styles.header}>
-          <View style={styles.iconCircle}>
-            <IconSymbol
-              ios_icon_name="person.circle.fill"
-              android_material_icon_name="account-circle"
-              size={64}
-              color={colors.primary}
-            />
-          </View>
-          <Text style={styles.headerTitle}>Profile</Text>
+          <Text style={styles.title}>Profile</Text>
         </View>
 
         {/* Loading State */}
@@ -49,187 +56,99 @@ export default function ProfileScreen() {
           </View>
         )}
 
-        {/* Not Authenticated State */}
+        {/* Not Authenticated */}
         {!loading && !authenticated && (
-          <View style={styles.authContainer}>
-            <View style={styles.infoCard}>
-              <IconSymbol
-                ios_icon_name="info.circle.fill"
-                android_material_icon_name="info"
-                size={32}
-                color={colors.primary}
+          <View style={styles.loginSection}>
+            <View style={styles.iconContainer}>
+              <IconSymbol 
+                ios_icon_name="person.circle" 
+                android_material_icon_name="account-circle" 
+                size={80} 
+                color={colors.textSecondary} 
               />
-              <Text style={styles.infoTitle}>Welcome to Pi Albania Hub</Text>
-              <Text style={styles.infoText}>
-                Sign in with your Pi account to access personalized features and connect with the Albanian Pi community.
-              </Text>
             </View>
-
-            {piSDKLoaded ? (
-              <TouchableOpacity
-                style={styles.loginButton}
-                onPress={handleLogin}
-                activeOpacity={0.8}
-              >
-                <IconSymbol
-                  ios_icon_name="person.badge.key.fill"
-                  android_material_icon_name="vpn-key"
-                  size={24}
-                  color="#FFFFFF"
+            <Text style={styles.loginTitle}>Not Logged In</Text>
+            <Text style={styles.loginSubtitle}>Login with Pi to access your profile and full features</Text>
+            
+            {!piSDKLoaded && (
+              <View style={styles.warningCard}>
+                <IconSymbol 
+                  ios_icon_name="exclamationmark.triangle" 
+                  android_material_icon_name="warning" 
+                  size={24} 
+                  color="#F59E0B" 
                 />
-                <Text style={styles.loginButtonText}>Login with Pi</Text>
-              </TouchableOpacity>
-            ) : (
-              <View style={styles.sdkWarning}>
-                <IconSymbol
-                  ios_icon_name="exclamationmark.triangle.fill"
-                  android_material_icon_name="warning"
-                  size={24}
-                  color={colors.accent}
-                />
-                <Text style={styles.sdkWarningText}>
-                  Pi SDK is not available. Please open this app in Pi Browser.
-                </Text>
+                <Text style={styles.warningText}>Pi SDK not available. Please open this app in Pi Browser.</Text>
               </View>
             )}
-          </View>
-        )}
 
-        {/* Authenticated State */}
-        {!loading && authenticated && piUser && (
-          <View style={styles.profileContainer}>
-            {/* User Info Card */}
-            <View style={styles.userCard}>
-              <View style={styles.userIconContainer}>
-                <IconSymbol
-                  ios_icon_name="person.circle.fill"
-                  android_material_icon_name="account-circle"
-                  size={80}
-                  color={colors.primary}
-                />
-              </View>
-              <Text style={styles.username}>@{piUser.username}</Text>
-              <Text style={styles.userId}>User ID: {piUser.uid}</Text>
-            </View>
-
-            {/* Stats Cards */}
-            <View style={styles.statsContainer}>
-              <View style={styles.statCard}>
-                <IconSymbol
-                  ios_icon_name="star.fill"
-                  android_material_icon_name="star"
-                  size={28}
-                  color={colors.accent}
-                />
-                <Text style={styles.statValue}>0</Text>
-                <Text style={styles.statLabel}>Contributions</Text>
-              </View>
-              <View style={styles.statCard}>
-                <IconSymbol
-                  ios_icon_name="heart.fill"
-                  android_material_icon_name="favorite"
-                  size={28}
-                  color={colors.success}
-                />
-                <Text style={styles.statValue}>0</Text>
-                <Text style={styles.statLabel}>Favorites</Text>
-              </View>
-            </View>
-
-            {/* Account Section */}
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Account</Text>
-              <View style={styles.menuItem}>
-                <IconSymbol
-                  ios_icon_name="person.fill"
-                  android_material_icon_name="person"
-                  size={24}
-                  color={colors.textSecondary}
-                />
-                <Text style={styles.menuItemText}>Edit Profile</Text>
-                <IconSymbol
-                  ios_icon_name="chevron.right"
-                  android_material_icon_name="chevron-right"
-                  size={24}
-                  color={colors.textSecondary}
-                />
-              </View>
-              <View style={styles.menuItem}>
-                <IconSymbol
-                  ios_icon_name="bell.fill"
-                  android_material_icon_name="notifications"
-                  size={24}
-                  color={colors.textSecondary}
-                />
-                <Text style={styles.menuItemText}>Notifications</Text>
-                <IconSymbol
-                  ios_icon_name="chevron.right"
-                  android_material_icon_name="chevron-right"
-                  size={24}
-                  color={colors.textSecondary}
-                />
-              </View>
-            </View>
-
-            {/* Settings Section */}
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Settings</Text>
-              <View style={styles.menuItem}>
-                <IconSymbol
-                  ios_icon_name="gear"
-                  android_material_icon_name="settings"
-                  size={24}
-                  color={colors.textSecondary}
-                />
-                <Text style={styles.menuItemText}>Preferences</Text>
-                <IconSymbol
-                  ios_icon_name="chevron.right"
-                  android_material_icon_name="chevron-right"
-                  size={24}
-                  color={colors.textSecondary}
-                />
-              </View>
-              <View style={styles.menuItem}>
-                <IconSymbol
-                  ios_icon_name="questionmark.circle.fill"
-                  android_material_icon_name="help"
-                  size={24}
-                  color={colors.textSecondary}
-                />
-                <Text style={styles.menuItemText}>Help & Support</Text>
-                <IconSymbol
-                  ios_icon_name="chevron.right"
-                  android_material_icon_name="chevron-right"
-                  size={24}
-                  color={colors.textSecondary}
-                />
-              </View>
-            </View>
-
-            {/* Logout Button */}
-            <TouchableOpacity
-              style={styles.logoutButton}
-              onPress={handleLogout}
+            <TouchableOpacity 
+              style={[styles.loginButton, (!piSDKLoaded || isProcessing) && styles.buttonDisabled]}
+              onPress={handleLogin}
+              disabled={!piSDKLoaded || isProcessing}
               activeOpacity={0.8}
             >
-              <IconSymbol
-                ios_icon_name="arrow.right.square.fill"
-                android_material_icon_name="logout"
-                size={24}
-                color={colors.error}
-              />
-              <Text style={styles.logoutButtonText}>Logout</Text>
+              {isLoggingIn ? (
+                <ActivityIndicator color="#FFFFFF" />
+              ) : (
+                <Text style={styles.loginButtonText}>Login with Pi</Text>
+              )}
             </TouchableOpacity>
           </View>
         )}
 
-        {/* App Info */}
-        <View style={styles.appInfo}>
-          <Text style={styles.appInfoText}>Pi Albania Hub v1.0.0</Text>
-          <Text style={styles.appInfoText}>Connected to albania.pi</Text>
-        </View>
+        {/* Authenticated */}
+        {!loading && authenticated && piUser && (
+          <View style={styles.profileSection}>
+            <View style={styles.profileCard}>
+              <View style={styles.avatarContainer}>
+                <IconSymbol 
+                  ios_icon_name="person.circle.fill" 
+                  android_material_icon_name="account-circle" 
+                  size={80} 
+                  color={colors.primary} 
+                />
+              </View>
+              <Text style={styles.username}>{piUser.username}</Text>
+              <Text style={styles.userId}>ID: {piUser.uid}</Text>
+            </View>
+
+            <View style={styles.infoCard}>
+              <View style={styles.infoRow}>
+                <IconSymbol 
+                  ios_icon_name="checkmark.circle.fill" 
+                  android_material_icon_name="check-circle" 
+                  size={24} 
+                  color="#059669" 
+                />
+                <Text style={styles.infoText}>Authenticated with Pi Network</Text>
+              </View>
+            </View>
+
+            <TouchableOpacity 
+              style={[styles.logoutButton, isProcessing && styles.buttonDisabled]}
+              onPress={handleLogout}
+              disabled={isProcessing}
+              activeOpacity={0.8}
+            >
+              {isLoggingOut ? (
+                <ActivityIndicator color="#DC2626" />
+              ) : (
+                <>
+                  <IconSymbol 
+                    ios_icon_name="arrow.right.square" 
+                    android_material_icon_name="logout" 
+                    size={20} 
+                    color="#DC2626" 
+                  />
+                  <Text style={styles.logoutButtonText}>Logout</Text>
+                </>
+              )}
+            </TouchableOpacity>
+          </View>
+        )}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -238,111 +157,94 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    paddingTop: Platform.OS === 'android' ? 24 : 0,
-    paddingHorizontal: 16,
+    paddingTop: Platform.OS === 'android' ? 48 : 60,
+    paddingHorizontal: 20,
     paddingBottom: 120,
   },
   header: {
-    alignItems: 'center',
     marginBottom: 32,
-    marginTop: 16,
   },
-  iconCircle: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: colors.primary + '15',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  headerTitle: {
-    fontSize: 28,
+  title: {
+    fontSize: 32,
     fontWeight: '800',
     color: colors.text,
   },
   loadingContainer: {
     alignItems: 'center',
-    paddingVertical: 40,
+    paddingVertical: 60,
   },
   loadingText: {
     fontSize: 16,
     color: colors.textSecondary,
     marginTop: 16,
   },
-  authContainer: {
+  loginSection: {
     alignItems: 'center',
+    paddingVertical: 40,
   },
-  infoCard: {
-    backgroundColor: colors.card,
-    borderRadius: 16,
-    padding: 24,
-    alignItems: 'center',
+  iconContainer: {
     marginBottom: 24,
-    width: '100%',
-    boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.06)',
-    elevation: 2,
   },
-  infoTitle: {
-    fontSize: 20,
-    fontWeight: '700',
+  loginTitle: {
+    fontSize: 24,
+    fontWeight: '800',
     color: colors.text,
-    marginTop: 16,
     marginBottom: 8,
-    textAlign: 'center',
   },
-  infoText: {
+  loginSubtitle: {
     fontSize: 15,
     color: colors.textSecondary,
     textAlign: 'center',
-    lineHeight: 22,
+    marginBottom: 32,
+    paddingHorizontal: 20,
+  },
+  warningCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FEF3C7',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderRadius: 12,
+    marginBottom: 24,
+    width: '100%',
+  },
+  warningText: {
+    fontSize: 14,
+    color: '#92400E',
+    marginLeft: 10,
+    flex: 1,
   },
   loginButton: {
-    backgroundColor: colors.primary,
-    flexDirection: 'row',
+    backgroundColor: '#DC2626',
+    paddingHorizontal: 48,
+    paddingVertical: 14,
+    borderRadius: 25,
+    width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 16,
-    paddingHorizontal: 32,
-    borderRadius: 12,
-    width: '100%',
-    boxShadow: '0px 4px 12px rgba(124, 58, 237, 0.3)',
-    elevation: 4,
+    minHeight: 50,
   },
   loginButtonText: {
-    fontSize: 18,
-    fontWeight: '700',
     color: '#FFFFFF',
-    marginLeft: 12,
+    fontSize: 16,
+    fontWeight: '700',
   },
-  sdkWarning: {
-    backgroundColor: colors.accent + '15',
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 16,
-    borderRadius: 12,
-    width: '100%',
+  buttonDisabled: {
+    opacity: 0.5,
   },
-  sdkWarningText: {
-    fontSize: 14,
-    color: colors.accent,
-    marginLeft: 12,
-    flex: 1,
-    lineHeight: 20,
+  profileSection: {
+    paddingVertical: 20,
   },
-  profileContainer: {
-    width: '100%',
-  },
-  userCard: {
+  profileCard: {
     backgroundColor: colors.card,
-    borderRadius: 16,
-    padding: 24,
+    borderRadius: 20,
+    padding: 32,
     alignItems: 'center',
-    marginBottom: 24,
-    boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.06)',
-    elevation: 2,
+    marginBottom: 20,
+    boxShadow: '0px 2px 12px rgba(0, 0, 0, 0.08)',
+    elevation: 3,
   },
-  userIconContainer: {
+  avatarContainer: {
     marginBottom: 16,
   },
   username: {
@@ -355,83 +257,38 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: colors.textSecondary,
   },
-  statsContainer: {
-    flexDirection: 'row',
-    gap: 12,
-    marginBottom: 24,
-  },
-  statCard: {
-    flex: 1,
-    backgroundColor: colors.card,
+  infoCard: {
+    backgroundColor: '#D1FAE5',
     borderRadius: 12,
     padding: 16,
-    alignItems: 'center',
-    boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.06)',
-    elevation: 2,
-  },
-  statValue: {
-    fontSize: 24,
-    fontWeight: '800',
-    color: colors.text,
-    marginTop: 8,
-  },
-  statLabel: {
-    fontSize: 12,
-    color: colors.textSecondary,
-    marginTop: 4,
-  },
-  section: {
     marginBottom: 24,
   },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: colors.text,
-    marginBottom: 12,
-    paddingHorizontal: 4,
-  },
-  menuItem: {
-    backgroundColor: colors.card,
+  infoRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 16,
-    borderRadius: 12,
-    marginBottom: 8,
-    boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.06)',
-    elevation: 2,
   },
-  menuItemText: {
-    fontSize: 16,
-    color: colors.text,
-    flex: 1,
-    marginLeft: 12,
+  infoText: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#065F46',
+    marginLeft: 10,
   },
   logoutButton: {
-    backgroundColor: colors.error + '15',
+    backgroundColor: colors.card,
+    borderWidth: 2,
+    borderColor: '#DC2626',
+    paddingHorizontal: 24,
+    paddingVertical: 14,
+    borderRadius: 25,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 16,
-    paddingHorizontal: 32,
-    borderRadius: 12,
-    marginTop: 8,
+    minHeight: 50,
   },
   logoutButtonText: {
+    color: '#DC2626',
     fontSize: 16,
     fontWeight: '700',
-    color: colors.error,
-    marginLeft: 12,
-  },
-  appInfo: {
-    alignItems: 'center',
-    marginTop: 32,
-    paddingTop: 24,
-    borderTopWidth: 1,
-    borderTopColor: colors.border,
-  },
-  appInfoText: {
-    fontSize: 12,
-    color: colors.textSecondary,
-    marginBottom: 4,
+    marginLeft: 8,
   },
 });

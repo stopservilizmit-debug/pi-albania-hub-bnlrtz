@@ -6,7 +6,7 @@ import { colors } from "@/styles/commonStyles";
 import { IconSymbol } from "@/components/IconSymbol";
 import { usePi } from "@/contexts/PiContext";
 
-interface HubCard {
+interface CategoryCard {
   id: string;
   title: string;
   description: string;
@@ -14,54 +14,50 @@ interface HubCard {
   color: string;
 }
 
-const hubCards: HubCard[] = [
+const categoryCards: CategoryCard[] = [
   {
-    id: 'today',
-    title: 'Today',
-    description: 'Latest news and updates from Albania',
-    icon: 'calendar-today',
-    color: '#7C3AED',
+    id: 'services',
+    title: 'Services',
+    description: 'Local businesses',
+    icon: 'business',
+    color: '#DC2626',
+  },
+  {
+    id: 'events',
+    title: 'Events',
+    description: 'Happenings near you',
+    icon: 'event',
+    color: '#059669',
   },
   {
     id: 'community',
     title: 'Community',
-    description: 'Connect with people and join discussions',
-    icon: 'group',
-    color: '#EC4899',
+    description: 'Connect & share',
+    icon: 'chat',
+    color: '#059669',
   },
   {
-    id: 'made-in-albania',
-    title: 'Made in Albania',
-    description: 'Discover local products and businesses',
-    icon: 'store',
-    color: '#10B981',
-  },
-  {
-    id: 'discover',
-    title: 'Discover',
-    description: 'Explore services and opportunities',
-    icon: 'explore',
-    color: '#F59E0B',
-  },
-  {
-    id: 'map',
-    title: 'Map',
-    description: 'Find locations and navigate Albania',
-    icon: 'map',
-    color: '#3B82F6',
+    id: 'guides',
+    title: 'Guides',
+    description: 'Tips & insights',
+    icon: 'menu-book',
+    color: '#DC2626',
   },
 ];
 
 export default function HomeScreen() {
-  console.log('HomeScreen (iOS): Rendering home screen');
+  console.log('HomeScreen: Rendering home screen (iOS)');
   const theme = useTheme();
-  const { authenticated, piUser } = usePi();
+  const { authenticated, piUser, loading } = usePi();
 
   const handleCardPress = (cardId: string) => {
-    console.log('HomeScreen (iOS): User tapped card:', cardId);
-    // Placeholder for navigation - will be implemented when sections are built
+    console.log('HomeScreen: User tapped card:', cardId);
     alert(`${cardId} section coming soon!`);
   };
+
+  const servicesCount = '150+';
+  const eventsCount = '24';
+  const membersCount = '1.2K';
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
@@ -71,62 +67,96 @@ export default function HomeScreen() {
       >
         {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.headerTitle}>Pi Albania Hub</Text>
-          <Text style={styles.headerSubtitle}>
-            Your gateway to Albania in the Pi ecosystem
-          </Text>
-          {authenticated && piUser && (
-            <View style={styles.welcomeBadge}>
-              <IconSymbol 
-                ios_icon_name="person.circle.fill" 
-                android_material_icon_name="account-circle" 
-                size={20} 
-                color={colors.primary} 
-              />
-              <Text style={styles.welcomeText}>Welcome, {piUser.username}!</Text>
-            </View>
-          )}
+          <Text style={styles.appTitle}>Albania Hub</Text>
+          <Text style={styles.appSubtitle}>Community-driven local insights</Text>
         </View>
 
-        {/* Hub Cards */}
-        <View style={styles.cardsContainer}>
-          {hubCards.map((card, index) => (
-            <TouchableOpacity
-              key={card.id}
-              style={[styles.card, { borderLeftColor: card.color }]}
-              onPress={() => handleCardPress(card.id)}
-              activeOpacity={0.7}
-            >
-              <View style={[styles.iconContainer, { backgroundColor: card.color + '15' }]}>
-                <IconSymbol
-                  ios_icon_name={card.icon}
-                  android_material_icon_name={card.icon}
-                  size={32}
-                  color={card.color}
-                />
-              </View>
-              <View style={styles.cardContent}>
-                <Text style={styles.cardTitle}>{card.title}</Text>
-                <Text style={styles.cardDescription}>{card.description}</Text>
-              </View>
-              <IconSymbol
-                ios_icon_name="chevron.right"
-                android_material_icon_name="chevron-right"
-                size={24}
-                color={colors.textSecondary}
+        {/* Login Card - Only show if not authenticated */}
+        {!authenticated && !loading && (
+          <View style={styles.loginCard}>
+            <View style={styles.loginIconContainer}>
+              <IconSymbol 
+                ios_icon_name="person.circle" 
+                android_material_icon_name="account-circle" 
+                size={48} 
+                color="#DC2626" 
               />
+            </View>
+            <Text style={styles.welcomeTitle}>Welcome!</Text>
+            <Text style={styles.welcomeSubtitle}>Login with Pi to access full features</Text>
+            <TouchableOpacity 
+              style={styles.loginButton}
+              onPress={() => {
+                console.log('User tapped Login with Pi button');
+                alert('Pi login will be implemented');
+              }}
+              activeOpacity={0.8}
+            >
+              <Text style={styles.loginButtonText}>Login with Pi</Text>
             </TouchableOpacity>
+          </View>
+        )}
+
+        {/* Welcome message for authenticated users */}
+        {authenticated && piUser && (
+          <View style={styles.welcomeCard}>
+            <IconSymbol 
+              ios_icon_name="checkmark.circle.fill" 
+              android_material_icon_name="check-circle" 
+              size={24} 
+              color="#059669" 
+            />
+            <Text style={styles.welcomeUserText}>Welcome back, {piUser.username}!</Text>
+          </View>
+        )}
+
+        {/* Discover Section */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Discover Albania</Text>
+          <Text style={styles.sectionSubtitle}>Explore local insights and connect with your community</Text>
+        </View>
+
+        {/* Category Cards Grid */}
+        <View style={styles.cardsGrid}>
+          {categoryCards.map((card, index) => (
+            <React.Fragment key={index}>
+              <TouchableOpacity
+                style={styles.categoryCard}
+                onPress={() => handleCardPress(card.id)}
+                activeOpacity={0.7}
+              >
+                <View style={[styles.categoryIconContainer, { backgroundColor: card.color + '15' }]}>
+                  <IconSymbol
+                    ios_icon_name={card.icon}
+                    android_material_icon_name={card.icon}
+                    size={32}
+                    color={card.color}
+                  />
+                </View>
+                <Text style={styles.categoryTitle}>{card.title}</Text>
+                <Text style={styles.categoryDescription}>{card.description}</Text>
+              </TouchableOpacity>
+            </React.Fragment>
           ))}
         </View>
 
-        {/* Info Section */}
-        <View style={styles.infoSection}>
-          <Text style={styles.infoTitle}>About Pi Albania Hub</Text>
-          <Text style={styles.infoText}>
-            This is your starting point for exploring Albania-related experiences in the Pi Network. 
-            Navigate through different sections to discover content, connect with the community, 
-            and explore local opportunities.
-          </Text>
+        {/* Quick Stats */}
+        <View style={styles.statsCard}>
+          <Text style={styles.statsTitle}>Quick Stats</Text>
+          <View style={styles.statsRow}>
+            <View style={styles.statItem}>
+              <Text style={styles.statValue}>{servicesCount}</Text>
+              <Text style={styles.statLabel}>Services</Text>
+            </View>
+            <View style={styles.statItem}>
+              <Text style={[styles.statValue, { color: '#059669' }]}>{eventsCount}</Text>
+              <Text style={styles.statLabel}>Events</Text>
+            </View>
+            <View style={styles.statItem}>
+              <Text style={[styles.statValue, { color: '#DC2626' }]}>{membersCount}</Text>
+              <Text style={styles.statLabel}>Members</Text>
+            </View>
+          </View>
         </View>
       </ScrollView>
     </View>
@@ -139,89 +169,160 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     paddingTop: 60,
-    paddingHorizontal: 16,
+    paddingHorizontal: 20,
     paddingBottom: 120,
   },
   header: {
     marginBottom: 24,
   },
-  headerTitle: {
-    fontSize: 32,
+  appTitle: {
+    fontSize: 28,
+    fontWeight: '800',
+    color: colors.text,
+    marginBottom: 4,
+  },
+  appSubtitle: {
+    fontSize: 15,
+    color: colors.textSecondary,
+  },
+  loginCard: {
+    backgroundColor: colors.card,
+    borderRadius: 20,
+    padding: 24,
+    alignItems: 'center',
+    marginBottom: 32,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+  },
+  loginIconContainer: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: '#FEE2E2',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  welcomeTitle: {
+    fontSize: 24,
     fontWeight: '800',
     color: colors.text,
     marginBottom: 8,
   },
-  headerSubtitle: {
+  welcomeSubtitle: {
+    fontSize: 15,
+    color: colors.textSecondary,
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  loginButton: {
+    backgroundColor: '#DC2626',
+    paddingHorizontal: 48,
+    paddingVertical: 14,
+    borderRadius: 25,
+    width: '100%',
+    alignItems: 'center',
+  },
+  loginButtonText: {
+    color: '#FFFFFF',
     fontSize: 16,
+    fontWeight: '700',
+  },
+  welcomeCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#D1FAE5',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderRadius: 12,
+    marginBottom: 24,
+  },
+  welcomeUserText: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#065F46',
+    marginLeft: 10,
+  },
+  section: {
+    marginBottom: 20,
+  },
+  sectionTitle: {
+    fontSize: 24,
+    fontWeight: '800',
+    color: colors.text,
+    marginBottom: 6,
+  },
+  sectionSubtitle: {
+    fontSize: 15,
     color: colors.textSecondary,
     lineHeight: 22,
   },
-  welcomeBadge: {
+  cardsGrid: {
     flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.primary + '10',
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 20,
-    marginTop: 12,
-    alignSelf: 'flex-start',
-  },
-  welcomeText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: colors.primary,
-    marginLeft: 6,
-  },
-  cardsContainer: {
+    flexWrap: 'wrap',
     gap: 12,
+    marginBottom: 24,
   },
-  card: {
+  categoryCard: {
+    width: '48%',
     backgroundColor: colors.card,
     borderRadius: 16,
-    padding: 16,
-    flexDirection: 'row',
+    padding: 20,
     alignItems: 'center',
-    borderLeftWidth: 4,
-    boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.06)',
-    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
   },
-  iconContainer: {
-    width: 56,
-    height: 56,
-    borderRadius: 12,
+  categoryIconContainer: {
+    width: 64,
+    height: 64,
+    borderRadius: 16,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 16,
+    marginBottom: 12,
   },
-  cardContent: {
-    flex: 1,
-  },
-  cardTitle: {
-    fontSize: 18,
+  categoryTitle: {
+    fontSize: 17,
     fontWeight: '700',
     color: colors.text,
     marginBottom: 4,
+    textAlign: 'center',
   },
-  cardDescription: {
-    fontSize: 14,
+  categoryDescription: {
+    fontSize: 13,
     color: colors.textSecondary,
-    lineHeight: 20,
+    textAlign: 'center',
   },
-  infoSection: {
-    marginTop: 32,
-    padding: 16,
-    backgroundColor: colors.backgroundAlt,
-    borderRadius: 12,
+  statsCard: {
+    backgroundColor: '#FEF2F2',
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 20,
   },
-  infoTitle: {
-    fontSize: 18,
-    fontWeight: '700',
+  statsTitle: {
+    fontSize: 20,
+    fontWeight: '800',
     color: colors.text,
-    marginBottom: 8,
+    marginBottom: 16,
   },
-  infoText: {
+  statsRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+  statItem: {
+    alignItems: 'center',
+  },
+  statValue: {
+    fontSize: 28,
+    fontWeight: '800',
+    color: '#DC2626',
+    marginBottom: 4,
+  },
+  statLabel: {
     fontSize: 14,
     color: colors.textSecondary,
-    lineHeight: 22,
   },
 });
