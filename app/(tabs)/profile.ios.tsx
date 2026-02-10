@@ -1,413 +1,310 @@
 
-import React, { useState } from "react";
-import { ScrollView, StyleSheet, View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
 import { useTheme } from "@react-navigation/native";
+import React, { useState } from "react";
+import { LinearGradient } from 'expo-linear-gradient';
+import { ScrollView, StyleSheet, View, Text, TouchableOpacity, ActivityIndicator, Image } from "react-native";
 import { colors } from "@/styles/commonStyles";
 import { usePi } from "@/contexts/PiContext";
 import { IconSymbol } from "@/components/IconSymbol";
-import { LinearGradient } from 'expo-linear-gradient';
 
 export default function ProfileScreen() {
-  console.log('ProfileScreen: Rendering profile screen (iOS)');
+  const { piUser, authenticated, loading, signInWithPi, signOut } = usePi();
+  const [loggingOut, setLoggingOut] = useState(false);
   const theme = useTheme();
-  const { authenticated, piUser, loading, signInWithPi, signOut, piSDKLoaded } = usePi();
-  const [isLoggingIn, setIsLoggingIn] = useState(false);
-  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const handleLogin = async () => {
-    console.log('ProfileScreen: User tapped login button');
-    setIsLoggingIn(true);
+    console.log('User tapped Login with Pi button');
     try {
       await signInWithPi();
     } catch (error) {
-      console.error('ProfileScreen: Login error:', error);
-    } finally {
-      setIsLoggingIn(false);
+      console.error('Login failed:', error);
     }
   };
 
-  const handleLogout = () => {
-    console.log('ProfileScreen: User tapped logout button');
-    setIsLoggingOut(true);
+  const handleLogout = async () => {
+    console.log('User tapped Logout button');
+    setLoggingOut(true);
     try {
-      signOut();
+      await signOut();
+    } catch (error) {
+      console.error('Logout failed:', error);
     } finally {
-      setIsLoggingOut(false);
+      setLoggingOut(false);
     }
   };
-
-  const isProcessing = isLoggingIn || isLoggingOut;
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <ScrollView
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-      >
-        {/* Header */}
-        <View style={styles.header}>
-          <Text style={styles.title}>Profile</Text>
-        </View>
+    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+      {/* Modern Header with Logo */}
+      <View style={styles.headerContainer}>
+        <Image 
+          source={require('@/assets/images/a4fd3787-6215-489f-a37b-bad6d6a6fc8e.png')}
+          style={styles.headerLogo}
+          resizeMode="contain"
+        />
+      </View>
 
-        {/* Loading State */}
-        {loading && (
-          <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color="#7C3AED" />
-            <Text style={styles.loadingText}>Loading Pi SDK...</Text>
-          </View>
-        )}
-
-        {/* Not Authenticated */}
-        {!loading && !authenticated && (
-          <View style={styles.loginSection}>
-            <View style={styles.loginCardWrapper}>
-              <LinearGradient
-                colors={['#7C3AED', '#9333EA', '#A855F7']}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-                style={styles.loginCardGradient}
-              >
-                <View style={styles.iconCircleWrapper}>
-                  <View style={styles.iconCircle}>
-                    <IconSymbol 
-                      ios_icon_name="person.circle.fill" 
-                      android_material_icon_name="account-circle" 
-                      size={72} 
-                      color="#7C3AED" 
-                    />
-                  </View>
-                </View>
-                
-                <Text style={styles.loginTitle}>Your Profile Awaits</Text>
-                <Text style={styles.loginSubtitle}>Connect with Pi Network to create your profile and unlock the full Albania Hub experience</Text>
-                
-                {!piSDKLoaded && (
-                  <View style={styles.warningCard}>
-                    <IconSymbol 
-                      ios_icon_name="exclamationmark.triangle.fill" 
-                      android_material_icon_name="warning" 
-                      size={20} 
-                      color="#F59E0B" 
-                    />
-                    <Text style={styles.warningText}>Pi SDK not available. Please open in Pi Browser.</Text>
-                  </View>
-                )}
-
-                <TouchableOpacity 
-                  style={[styles.loginButton, (!piSDKLoaded || isProcessing) && styles.buttonDisabled]}
-                  onPress={handleLogin}
-                  disabled={!piSDKLoaded || isProcessing}
-                  activeOpacity={0.9}
-                >
-                  {isLoggingIn ? (
-                    <ActivityIndicator color="#7C3AED" />
-                  ) : (
-                    <View style={styles.loginButtonContent}>
-                      <IconSymbol 
-                        ios_icon_name="lock.shield.fill" 
-                        android_material_icon_name="verified-user" 
-                        size={20} 
-                        color="#7C3AED" 
-                      />
-                      <Text style={styles.loginButtonText}>Connect with Pi</Text>
-                    </View>
-                  )}
-                </TouchableOpacity>
-
-                <View style={styles.benefitsContainer}>
-                  <View style={styles.benefitItem}>
-                    <IconSymbol 
-                      ios_icon_name="checkmark.circle.fill" 
-                      android_material_icon_name="check-circle" 
-                      size={16} 
-                      color="#FFD700" 
-                    />
-                    <Text style={styles.benefitText}>Secure authentication</Text>
-                  </View>
-                  <View style={styles.benefitItem}>
-                    <IconSymbol 
-                      ios_icon_name="checkmark.circle.fill" 
-                      android_material_icon_name="check-circle" 
-                      size={16} 
-                      color="#FFD700" 
-                    />
-                    <Text style={styles.benefitText}>Personalized experience</Text>
-                  </View>
-                  <View style={styles.benefitItem}>
-                    <IconSymbol 
-                      ios_icon_name="checkmark.circle.fill" 
-                      android_material_icon_name="check-circle" 
-                      size={16} 
-                      color="#FFD700" 
-                    />
-                    <Text style={styles.benefitText}>Community access</Text>
-                  </View>
-                </View>
-              </LinearGradient>
-            </View>
-          </View>
-        )}
-
-        {/* Authenticated */}
-        {!loading && authenticated && piUser && (
-          <View style={styles.profileSection}>
-            <View style={styles.profileCardWrapper}>
-              <LinearGradient
-                colors={['#7C3AED', '#9333EA']}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-                style={styles.profileCardGradient}
-              >
-                <View style={styles.avatarCircleWrapper}>
-                  <View style={styles.avatarCircle}>
-                    <IconSymbol 
-                      ios_icon_name="person.circle.fill" 
-                      android_material_icon_name="account-circle" 
-                      size={80} 
-                      color="#7C3AED" 
-                    />
-                  </View>
-                </View>
-                <Text style={styles.username}>{piUser.username}</Text>
-                <Text style={styles.userId}>ID: {piUser.uid}</Text>
-                
-                <View style={styles.verifiedBadge}>
-                  <IconSymbol 
-                    ios_icon_name="checkmark.seal.fill" 
-                    android_material_icon_name="verified" 
-                    size={18} 
-                    color="#FFD700" 
-                  />
-                  <Text style={styles.verifiedText}>Verified Pi User</Text>
-                </View>
-              </LinearGradient>
-            </View>
-
+      {!authenticated ? (
+        <View style={styles.authCard}>
+          <LinearGradient
+            colors={[colors.primary, colors.secondary]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.authGradient}
+          >
+            <IconSymbol 
+              ios_icon_name="person.circle.fill" 
+              android_material_icon_name="account-circle" 
+              size={80} 
+              color="#FFFFFF" 
+            />
+            <Text style={styles.authTitle}>Profile</Text>
+            <Text style={styles.authSubtitle}>Sign in to access your profile</Text>
             <TouchableOpacity 
-              style={[styles.logoutButton, isProcessing && styles.buttonDisabled]}
-              onPress={handleLogout}
-              disabled={isProcessing}
-              activeOpacity={0.8}
+              style={styles.loginButton}
+              onPress={handleLogin}
+              disabled={loading}
             >
-              {isLoggingOut ? (
-                <ActivityIndicator color="#D63031" />
+              {loading ? (
+                <ActivityIndicator color={colors.primary} />
               ) : (
-                <>
-                  <IconSymbol 
-                    ios_icon_name="arrow.right.square.fill" 
-                    android_material_icon_name="logout" 
-                    size={20} 
-                    color="#D63031" 
-                  />
-                  <Text style={styles.logoutButtonText}>Logout</Text>
-                </>
+                <Text style={styles.loginButtonText}>Login with Pi</Text>
               )}
             </TouchableOpacity>
+          </LinearGradient>
+        </View>
+      ) : (
+        <View style={styles.profileContainer}>
+          <View style={styles.profileCard}>
+            <LinearGradient
+              colors={[colors.primary, colors.secondary]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={styles.profileGradient}
+            >
+              <IconSymbol 
+                ios_icon_name="person.circle.fill" 
+                android_material_icon_name="account-circle" 
+                size={80} 
+                color="#FFFFFF" 
+              />
+              <Text style={styles.profileUsername}>{piUser?.username || 'Pi User'}</Text>
+              <Text style={styles.profileId}>ID: {piUser?.uid || 'N/A'}</Text>
+            </LinearGradient>
           </View>
-        )}
-      </ScrollView>
-    </View>
+
+          <View style={styles.menuContainer}>
+            <TouchableOpacity style={styles.menuItem}>
+              <IconSymbol 
+                ios_icon_name="person.fill" 
+                android_material_icon_name="person" 
+                size={24} 
+                color={colors.primary} 
+              />
+              <Text style={styles.menuText}>Account Settings</Text>
+              <IconSymbol 
+                ios_icon_name="chevron.right" 
+                android_material_icon_name="arrow-forward" 
+                size={20} 
+                color={colors.text} 
+              />
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.menuItem}>
+              <IconSymbol 
+                ios_icon_name="bell.fill" 
+                android_material_icon_name="notifications" 
+                size={24} 
+                color={colors.primary} 
+              />
+              <Text style={styles.menuText}>Notifications</Text>
+              <IconSymbol 
+                ios_icon_name="chevron.right" 
+                android_material_icon_name="arrow-forward" 
+                size={20} 
+                color={colors.text} 
+              />
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.menuItem}>
+              <IconSymbol 
+                ios_icon_name="gear" 
+                android_material_icon_name="settings" 
+                size={24} 
+                color={colors.primary} 
+              />
+              <Text style={styles.menuText}>Settings</Text>
+              <IconSymbol 
+                ios_icon_name="chevron.right" 
+                android_material_icon_name="arrow-forward" 
+                size={20} 
+                color={colors.text} 
+              />
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.menuItem}>
+              <IconSymbol 
+                ios_icon_name="questionmark.circle.fill" 
+                android_material_icon_name="help" 
+                size={24} 
+                color={colors.primary} 
+              />
+              <Text style={styles.menuText}>Help & Support</Text>
+              <IconSymbol 
+                ios_icon_name="chevron.right" 
+                android_material_icon_name="arrow-forward" 
+                size={20} 
+                color={colors.text} 
+              />
+            </TouchableOpacity>
+          </View>
+
+          <TouchableOpacity 
+            style={styles.logoutButton}
+            onPress={handleLogout}
+            disabled={loggingOut}
+          >
+            {loggingOut ? (
+              <ActivityIndicator color="#FFFFFF" />
+            ) : (
+              <>
+                <IconSymbol 
+                  ios_icon_name="arrow.right.square.fill" 
+                  android_material_icon_name="exit-to-app" 
+                  size={24} 
+                  color="#FFFFFF" 
+                />
+                <Text style={styles.logoutButtonText}>Logout</Text>
+              </>
+            )}
+          </TouchableOpacity>
+        </View>
+      )}
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: colors.background,
   },
-  scrollContent: {
-    paddingTop: 60,
-    paddingHorizontal: 20,
-    paddingBottom: 120,
+  contentContainer: {
+    paddingBottom: 100,
   },
-  header: {
-    marginBottom: 32,
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: '800',
-    color: colors.text,
-  },
-  loadingContainer: {
-    alignItems: 'center',
-    paddingVertical: 60,
-  },
-  loadingText: {
-    fontSize: 16,
-    color: colors.textSecondary,
-    marginTop: 16,
-  },
-  loginSection: {
-    paddingVertical: 20,
-  },
-  loginCardWrapper: {
-    borderRadius: 24,
-    overflow: 'hidden',
-    boxShadow: '0px 8px 24px rgba(124, 58, 237, 0.3)',
-    elevation: 8,
-  },
-  loginCardGradient: {
-    padding: 32,
-    alignItems: 'center',
-  },
-  iconCircleWrapper: {
-    marginBottom: 24,
-  },
-  iconCircle: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    backgroundColor: '#FFFFFF',
+  headerContainer: {
+    width: '100%',
+    height: 200,
+    backgroundColor: '#2C3E50',
     justifyContent: 'center',
     alignItems: 'center',
-    boxShadow: '0px 4px 16px rgba(0, 0, 0, 0.15)',
-    elevation: 4,
   },
-  loginTitle: {
-    fontSize: 28,
-    fontWeight: '800',
-    color: '#FFD700',
-    marginBottom: 12,
-    textAlign: 'center',
+  headerLogo: {
+    width: '80%',
+    height: 120,
   },
-  loginSubtitle: {
-    fontSize: 15,
-    color: '#FFD700',
-    opacity: 0.95,
-    textAlign: 'center',
-    marginBottom: 24,
-    lineHeight: 22,
-    paddingHorizontal: 10,
+  authCard: {
+    margin: 20,
+    borderRadius: 20,
+    overflow: 'hidden',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
   },
-  warningCard: {
-    flexDirection: 'row',
+  authGradient: {
+    padding: 40,
     alignItems: 'center',
-    backgroundColor: 'rgba(254, 243, 199, 0.2)',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderRadius: 12,
-    marginBottom: 24,
-    width: '100%',
-    borderWidth: 1,
-    borderColor: 'rgba(245, 158, 11, 0.3)',
   },
-  warningText: {
-    fontSize: 13,
-    color: '#FEF3C7',
-    marginLeft: 10,
-    flex: 1,
-    fontWeight: '500',
+  authTitle: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+    marginTop: 16,
+  },
+  authSubtitle: {
+    fontSize: 16,
+    color: '#FFFFFF',
+    marginTop: 8,
+    opacity: 0.9,
   },
   loginButton: {
     backgroundColor: '#FFFFFF',
     paddingHorizontal: 32,
-    paddingVertical: 16,
-    borderRadius: 30,
-    width: '100%',
+    paddingVertical: 14,
+    borderRadius: 25,
+    marginTop: 24,
+    minWidth: 200,
     alignItems: 'center',
-    justifyContent: 'center',
-    minHeight: 56,
-    marginBottom: 24,
-    boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.15)',
-    elevation: 4,
-  },
-  loginButtonContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
   },
   loginButtonText: {
-    color: '#7C3AED',
-    fontSize: 17,
-    fontWeight: '700',
+    color: colors.primary,
+    fontSize: 16,
+    fontWeight: '600',
   },
-  buttonDisabled: {
-    opacity: 0.5,
+  profileContainer: {
+    padding: 20,
   },
-  benefitsContainer: {
-    width: '100%',
-    gap: 12,
-  },
-  benefitItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-  },
-  benefitText: {
-    fontSize: 14,
-    color: '#FFD700',
-    fontWeight: '500',
-  },
-  profileSection: {
-    paddingVertical: 20,
-  },
-  profileCardWrapper: {
-    borderRadius: 24,
+  profileCard: {
+    borderRadius: 20,
     overflow: 'hidden',
     marginBottom: 24,
-    boxShadow: '0px 8px 24px rgba(124, 58, 237, 0.25)',
-    elevation: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
   },
-  profileCardGradient: {
+  profileGradient: {
     padding: 32,
     alignItems: 'center',
   },
-  avatarCircleWrapper: {
-    marginBottom: 20,
+  profileUsername: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+    marginTop: 16,
   },
-  avatarCircle: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    backgroundColor: '#FFFFFF',
-    justifyContent: 'center',
-    alignItems: 'center',
-    boxShadow: '0px 4px 16px rgba(0, 0, 0, 0.15)',
-    elevation: 4,
-  },
-  username: {
-    fontSize: 28,
-    fontWeight: '800',
-    color: '#FFD700',
-    marginBottom: 6,
-  },
-  userId: {
+  profileId: {
     fontSize: 14,
-    color: '#FFD700',
+    color: '#FFFFFF',
+    marginTop: 4,
     opacity: 0.8,
-    marginBottom: 16,
   },
-  verifiedBadge: {
+  menuContainer: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
+    overflow: 'hidden',
+    marginBottom: 24,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+  },
+  menuItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 215, 0, 0.2)',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
-    gap: 8,
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
   },
-  verifiedText: {
-    fontSize: 14,
-    color: '#FFD700',
-    fontWeight: '600',
+  menuText: {
+    flex: 1,
+    fontSize: 16,
+    color: colors.text,
+    marginLeft: 16,
   },
   logoutButton: {
-    backgroundColor: colors.card,
-    borderWidth: 2,
-    borderColor: '#D63031',
-    paddingHorizontal: 24,
-    paddingVertical: 16,
-    borderRadius: 25,
+    backgroundColor: colors.error,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    minHeight: 56,
-    boxShadow: '0px 2px 8px rgba(214, 48, 49, 0.1)',
-    elevation: 2,
+    padding: 16,
+    borderRadius: 12,
+    gap: 8,
   },
   logoutButtonText: {
-    color: '#D63031',
-    fontSize: 17,
-    fontWeight: '700',
-    marginLeft: 10,
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });

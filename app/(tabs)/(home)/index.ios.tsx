@@ -1,11 +1,11 @@
 
-import React from "react";
-import { ScrollView, StyleSheet, View, Text, TouchableOpacity, Platform } from "react-native";
 import { useTheme } from "@react-navigation/native";
-import { colors } from "@/styles/commonStyles";
-import { IconSymbol } from "@/components/IconSymbol";
-import { usePi } from "@/contexts/PiContext";
+import { ScrollView, StyleSheet, View, Text, TouchableOpacity, Platform, Image } from "react-native";
+import React from "react";
 import { LinearGradient } from 'expo-linear-gradient';
+import { colors } from "@/styles/commonStyles";
+import { usePi } from "@/contexts/PiContext";
+import { IconSymbol } from "@/components/IconSymbol";
 
 interface CategoryCard {
   id: string;
@@ -17,407 +17,282 @@ interface CategoryCard {
 
 const categoryCards: CategoryCard[] = [
   {
-    id: 'services',
-    title: 'Services',
-    description: 'Local businesses',
-    icon: 'business',
-    color: '#7C3AED',
-  },
-  {
-    id: 'events',
-    title: 'Events',
-    description: 'Happenings near you',
-    icon: 'event',
-    color: '#A78BFA',
+    id: 'today',
+    title: 'Today',
+    description: 'Latest news and updates from Albania',
+    icon: 'calendar-today',
+    color: colors.primary,
   },
   {
     id: 'community',
     title: 'Community',
-    description: 'Connect & share',
-    icon: 'chat',
-    color: '#FFD700',
+    description: 'Connect with people and share posts',
+    icon: 'group',
+    color: colors.secondary,
   },
   {
-    id: 'guides',
-    title: 'Guides',
-    description: 'Tips & insights',
-    icon: 'menu-book',
-    color: '#9333EA',
+    id: 'made-in-albania',
+    title: 'Made in Albania',
+    description: 'Discover local products and businesses',
+    icon: 'store',
+    color: colors.accent,
+  },
+  {
+    id: 'discover',
+    title: 'Discover',
+    description: 'Explore services and opportunities',
+    icon: 'explore',
+    color: colors.info,
   },
 ];
 
 export default function HomeScreen() {
-  console.log('HomeScreen: Rendering home screen (iOS)');
+  const { piUser, authenticated, loading, signInWithPi } = usePi();
   const theme = useTheme();
-  const { authenticated, piUser, loading, signInWithPi } = usePi();
 
   const handleCardPress = (cardId: string) => {
-    console.log('HomeScreen: User tapped card:', cardId);
-    alert(`${cardId} section coming soon!`);
+    console.log('User tapped card:', cardId);
   };
 
   const handleLogin = async () => {
-    console.log('HomeScreen: User tapped Login with Pi button');
+    console.log('User tapped Login with Pi button');
     try {
       await signInWithPi();
     } catch (error) {
-      console.error('HomeScreen: Login error:', error);
+      console.error('Login failed:', error);
     }
   };
 
-  const servicesCount = '150+';
-  const eventsCount = '24';
-  const membersCount = '1.2K';
-
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <ScrollView
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-      >
-        {/* Header */}
-        <View style={styles.header}>
-          <Text style={styles.appTitle}>Albania Hub</Text>
-          <Text style={styles.appSubtitle}>Your gateway to local experiences</Text>
-        </View>
+    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+      {/* Modern Header with Logo */}
+      <View style={styles.headerContainer}>
+        <Image 
+          source={require('@/assets/images/a4fd3787-6215-489f-a37b-bad6d6a6fc8e.png')}
+          style={styles.headerLogo}
+          resizeMode="contain"
+        />
+      </View>
 
-        {/* Login Card - Only show if not authenticated */}
-        {!authenticated && !loading && (
-          <View style={styles.loginCardWrapper}>
+      {/* Authentication Card */}
+      {!authenticated ? (
+        <View style={styles.authCard}>
+          <LinearGradient
+            colors={[colors.primary, colors.secondary]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.authGradient}
+          >
+            <IconSymbol 
+              ios_icon_name="person.circle.fill" 
+              android_material_icon_name="account-circle" 
+              size={64} 
+              color="#FFFFFF" 
+            />
+            <Text style={styles.authTitle}>Welcome to Albania Hub</Text>
+            <Text style={styles.authSubtitle}>Sign in with Pi to get started</Text>
+            <TouchableOpacity 
+              style={styles.loginButton}
+              onPress={handleLogin}
+              disabled={loading}
+            >
+              <Text style={styles.loginButtonText}>
+                {loading ? 'Connecting...' : 'Login with Pi'}
+              </Text>
+            </TouchableOpacity>
+          </LinearGradient>
+        </View>
+      ) : (
+        <View style={styles.welcomeCard}>
+          <LinearGradient
+            colors={[colors.primary, colors.secondary]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.welcomeGradient}
+          >
+            <IconSymbol 
+              ios_icon_name="checkmark.circle.fill" 
+              android_material_icon_name="check-circle" 
+              size={48} 
+              color="#FFFFFF" 
+            />
+            <Text style={styles.welcomeTitle}>Welcome back!</Text>
+            <Text style={styles.welcomeUsername}>{piUser?.username || 'Pi User'}</Text>
+          </LinearGradient>
+        </View>
+      )}
+
+      {/* Category Cards */}
+      <View style={styles.cardsContainer}>
+        <Text style={styles.sectionTitle}>Explore Albania Hub</Text>
+        {categoryCards.map((card) => (
+          <TouchableOpacity
+            key={card.id}
+            style={styles.categoryCard}
+            onPress={() => handleCardPress(card.id)}
+            activeOpacity={0.7}
+          >
             <LinearGradient
-              colors={['#7C3AED', '#9333EA', '#A855F7']}
+              colors={[card.color, card.color + 'CC']}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
-              style={styles.loginCardGradient}
+              style={styles.cardGradient}
             >
-              <View style={styles.loginIconWrapper}>
-                <View style={styles.loginIconCircle}>
-                  <IconSymbol 
-                    ios_icon_name="sparkles" 
-                    android_material_icon_name="auto-awesome" 
-                    size={56} 
-                    color="#7C3AED" 
-                  />
-                </View>
+              <View style={styles.cardIconContainer}>
+                <IconSymbol 
+                  ios_icon_name="square.fill" 
+                  android_material_icon_name={card.icon} 
+                  size={32} 
+                  color="#FFFFFF" 
+                />
               </View>
-              
-              <Text style={styles.welcomeTitleNew}>Discover Albania</Text>
-              <Text style={styles.welcomeSubtitleNew}>Join our community and explore authentic local experiences powered by Pi Network</Text>
-              
-              <TouchableOpacity 
-                style={styles.loginButtonNew}
-                onPress={handleLogin}
-                activeOpacity={0.9}
-              >
-                <View style={styles.loginButtonContent}>
-                  <IconSymbol 
-                    ios_icon_name="lock.shield.fill" 
-                    android_material_icon_name="verified-user" 
-                    size={20} 
-                    color="#7C3AED" 
-                  />
-                  <Text style={styles.loginButtonTextNew}>Connect with Pi</Text>
-                </View>
-              </TouchableOpacity>
-
-              <View style={styles.benefitsContainer}>
-                <View style={styles.benefitItem}>
-                  <IconSymbol 
-                    ios_icon_name="checkmark.circle.fill" 
-                    android_material_icon_name="check-circle" 
-                    size={16} 
-                    color="#FFD700" 
-                  />
-                  <Text style={styles.benefitText}>Exclusive local services</Text>
-                </View>
-                <View style={styles.benefitItem}>
-                  <IconSymbol 
-                    ios_icon_name="checkmark.circle.fill" 
-                    android_material_icon_name="check-circle" 
-                    size={16} 
-                    color="#FFD700" 
-                  />
-                  <Text style={styles.benefitText}>Community events & meetups</Text>
-                </View>
-                <View style={styles.benefitItem}>
-                  <IconSymbol 
-                    ios_icon_name="checkmark.circle.fill" 
-                    android_material_icon_name="check-circle" 
-                    size={16} 
-                    color="#FFD700" 
-                  />
-                  <Text style={styles.benefitText}>Verified & secure</Text>
-                </View>
+              <View style={styles.cardContent}>
+                <Text style={styles.cardTitle}>{card.title}</Text>
+                <Text style={styles.cardDescription}>{card.description}</Text>
               </View>
-            </LinearGradient>
-          </View>
-        )}
-
-        {/* Welcome message for authenticated users */}
-        {authenticated && piUser && (
-          <View style={styles.welcomeCard}>
-            <LinearGradient
-              colors={['#7C3AED', '#9333EA']}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              style={styles.welcomeCardGradient}
-            >
               <IconSymbol 
-                ios_icon_name="checkmark.circle.fill" 
-                android_material_icon_name="check-circle" 
+                ios_icon_name="chevron.right" 
+                android_material_icon_name="arrow-forward" 
                 size={24} 
-                color="#FFD700" 
+                color="#FFFFFF" 
               />
-              <Text style={styles.welcomeUserText}>Welcome back, {piUser.username}!</Text>
             </LinearGradient>
-          </View>
-        )}
-
-        {/* Discover Section */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Explore Categories</Text>
-          <Text style={styles.sectionSubtitle}>Find what you need in our vibrant community</Text>
-        </View>
-
-        {/* Category Cards Grid */}
-        <View style={styles.cardsGrid}>
-          {categoryCards.map((card, index) => (
-            <React.Fragment key={index}>
-              <TouchableOpacity
-                style={styles.categoryCard}
-                onPress={() => handleCardPress(card.id)}
-                activeOpacity={0.7}
-              >
-                <View style={[styles.categoryIconContainer, { backgroundColor: card.color + '15' }]}>
-                  <IconSymbol
-                    ios_icon_name={card.icon}
-                    android_material_icon_name={card.icon}
-                    size={32}
-                    color={card.color}
-                  />
-                </View>
-                <Text style={styles.categoryTitle}>{card.title}</Text>
-                <Text style={styles.categoryDescription}>{card.description}</Text>
-              </TouchableOpacity>
-            </React.Fragment>
-          ))}
-        </View>
-
-        {/* Quick Stats */}
-        <View style={styles.statsCard}>
-          <Text style={styles.statsTitle}>Community Stats</Text>
-          <View style={styles.statsRow}>
-            <View style={styles.statItem}>
-              <Text style={styles.statValue}>{servicesCount}</Text>
-              <Text style={styles.statLabel}>Services</Text>
-            </View>
-            <View style={styles.statItem}>
-              <Text style={[styles.statValue, { color: '#A78BFA' }]}>{eventsCount}</Text>
-              <Text style={styles.statLabel}>Events</Text>
-            </View>
-            <View style={styles.statItem}>
-              <Text style={[styles.statValue, { color: '#FFD700' }]}>{membersCount}</Text>
-              <Text style={styles.statLabel}>Members</Text>
-            </View>
-          </View>
-        </View>
-      </ScrollView>
-    </View>
+          </TouchableOpacity>
+        ))}
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: colors.background,
   },
-  scrollContent: {
-    paddingTop: Platform.OS === 'android' ? 48 : 60,
-    paddingHorizontal: 20,
-    paddingBottom: 120,
+  contentContainer: {
+    paddingBottom: 100,
   },
-  header: {
-    marginBottom: 24,
-  },
-  appTitle: {
-    fontSize: 28,
-    fontWeight: '800',
-    color: colors.text,
-    marginBottom: 4,
-  },
-  appSubtitle: {
-    fontSize: 15,
-    color: colors.textSecondary,
-  },
-  loginCardWrapper: {
-    marginBottom: 32,
-    borderRadius: 24,
-    overflow: 'hidden',
-    boxShadow: '0px 8px 24px rgba(124, 58, 237, 0.3)',
-    elevation: 8,
-  },
-  loginCardGradient: {
-    padding: 28,
-    alignItems: 'center',
-  },
-  loginIconWrapper: {
-    marginBottom: 20,
-  },
-  loginIconCircle: {
-    width: 96,
-    height: 96,
-    borderRadius: 48,
-    backgroundColor: '#FFFFFF',
+  headerContainer: {
+    width: '100%',
+    height: 200,
+    backgroundColor: '#2C3E50',
     justifyContent: 'center',
     alignItems: 'center',
-    boxShadow: '0px 4px 16px rgba(0, 0, 0, 0.15)',
-    elevation: 4,
   },
-  welcomeTitleNew: {
-    fontSize: 26,
-    fontWeight: '800',
-    color: '#FFD700',
-    marginBottom: 10,
+  headerLogo: {
+    width: '80%',
+    height: 120,
+  },
+  authCard: {
+    margin: 20,
+    borderRadius: 20,
+    overflow: 'hidden',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+  },
+  authGradient: {
+    padding: 32,
+    alignItems: 'center',
+  },
+  authTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+    marginTop: 16,
     textAlign: 'center',
   },
-  welcomeSubtitleNew: {
-    fontSize: 15,
-    color: '#FFD700',
-    opacity: 0.95,
+  authSubtitle: {
+    fontSize: 16,
+    color: '#FFFFFF',
+    marginTop: 8,
     textAlign: 'center',
-    marginBottom: 24,
-    lineHeight: 22,
-    paddingHorizontal: 10,
+    opacity: 0.9,
   },
-  loginButtonNew: {
+  loginButton: {
     backgroundColor: '#FFFFFF',
     paddingHorizontal: 32,
-    paddingVertical: 16,
-    borderRadius: 30,
-    width: '100%',
+    paddingVertical: 14,
+    borderRadius: 25,
+    marginTop: 24,
+    minWidth: 200,
     alignItems: 'center',
-    marginBottom: 20,
-    boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.15)',
-    elevation: 4,
   },
-  loginButtonContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-  },
-  loginButtonTextNew: {
-    color: '#7C3AED',
-    fontSize: 17,
-    fontWeight: '700',
-  },
-  benefitsContainer: {
-    width: '100%',
-    gap: 10,
-  },
-  benefitItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-  },
-  benefitText: {
-    fontSize: 14,
-    color: '#FFD700',
-    fontWeight: '500',
+  loginButtonText: {
+    color: colors.primary,
+    fontSize: 16,
+    fontWeight: '600',
   },
   welcomeCard: {
-    marginBottom: 24,
-    borderRadius: 16,
+    margin: 20,
+    borderRadius: 20,
     overflow: 'hidden',
-    boxShadow: '0px 4px 12px rgba(124, 58, 237, 0.25)',
-    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
   },
-  welcomeCardGradient: {
-    flexDirection: 'row',
+  welcomeGradient: {
+    padding: 24,
     alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 16,
   },
-  welcomeUserText: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: '#FFD700',
-    marginLeft: 12,
+  welcomeTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+    marginTop: 12,
   },
-  section: {
-    marginBottom: 20,
+  welcomeUsername: {
+    fontSize: 18,
+    color: '#FFFFFF',
+    marginTop: 4,
+    opacity: 0.9,
+  },
+  cardsContainer: {
+    padding: 20,
   },
   sectionTitle: {
-    fontSize: 24,
-    fontWeight: '800',
-    color: colors.text,
-    marginBottom: 6,
-  },
-  sectionSubtitle: {
-    fontSize: 15,
-    color: colors.textSecondary,
-    lineHeight: 22,
-  },
-  cardsGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 12,
-    marginBottom: 24,
-  },
-  categoryCard: {
-    width: '48%',
-    backgroundColor: colors.card,
-    borderRadius: 16,
-    padding: 20,
-    alignItems: 'center',
-    boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.06)',
-    elevation: 2,
-  },
-  categoryIconContainer: {
-    width: 64,
-    height: 64,
-    borderRadius: 16,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  categoryTitle: {
-    fontSize: 17,
-    fontWeight: '700',
-    color: colors.text,
-    marginBottom: 4,
-    textAlign: 'center',
-  },
-  categoryDescription: {
-    fontSize: 13,
-    color: colors.textSecondary,
-    textAlign: 'center',
-  },
-  statsCard: {
-    backgroundColor: '#F5F3FF',
-    borderRadius: 16,
-    padding: 20,
-    marginBottom: 20,
-  },
-  statsTitle: {
-    fontSize: 20,
-    fontWeight: '800',
+    fontSize: 22,
+    fontWeight: 'bold',
     color: colors.text,
     marginBottom: 16,
   },
-  statsRow: {
+  categoryCard: {
+    marginBottom: 16,
+    borderRadius: 16,
+    overflow: 'hidden',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+  },
+  cardGradient: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-  },
-  statItem: {
     alignItems: 'center',
+    padding: 20,
   },
-  statValue: {
-    fontSize: 28,
-    fontWeight: '800',
-    color: '#7C3AED',
+  cardIconContainer: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 16,
+  },
+  cardContent: {
+    flex: 1,
+  },
+  cardTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
     marginBottom: 4,
   },
-  statLabel: {
+  cardDescription: {
     fontSize: 14,
-    color: colors.textSecondary,
+    color: '#FFFFFF',
+    opacity: 0.9,
   },
 });
