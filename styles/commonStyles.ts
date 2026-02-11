@@ -2,24 +2,26 @@
 import { StyleSheet, ViewStyle, TextStyle } from 'react-native';
 
 export const colors = {
-  // Modern deep blue and coral palette
-  primary: '#2563EB',      // Deep blue - professional and trustworthy
-  secondary: '#7C3AED',    // Purple - creative accent
-  accent: '#EC4899',       // Pink - vibrant highlight
-  background: '#FFFFFF',   // Clean white
-  backgroundAlt: '#F1F5F9', // Subtle gray-blue
-  text: '#0F172A',         // Deep slate
-  textSecondary: '#64748B', // Medium slate
-  card: '#FFFFFF',         // White cards
-  border: '#E2E8F0',       // Light border
-  highlight: '#FEF3C7',    // Warm yellow highlight
-  success: '#10B981',      // Green
-  error: '#EF4444',        // Red
-  blue: '#2563EB',         // Deep blue
-  purple: '#7C3AED',       // Purple
-  pink: '#EC4899',         // Pink
-  darkBlue: '#1E40AF',     // Dark blue for gradients
-  darkPurple: '#6D28D9',   // Dark purple for gradients
+  // Black, White, Gold, Purple palette
+  primary: '#9333EA',      // Purple - main brand color
+  secondary: '#D4AF37',    // Gold - accent color
+  accent: '#FFD700',       // Bright gold - highlights
+  background: '#000000',   // Black background
+  backgroundAlt: '#1A1A1A', // Dark gray for cards
+  text: '#FFFFFF',         // White text
+  textSecondary: '#B8B8B8', // Light gray text
+  card: '#1F1F1F',         // Dark card background
+  border: '#333333',       // Dark border
+  highlight: '#FFD700',    // Gold highlight
+  success: '#10B981',      // Green (keep for status)
+  error: '#EF4444',        // Red (keep for status)
+  purple: '#9333EA',       // Purple
+  darkPurple: '#7E22CE',   // Dark purple for gradients
+  gold: '#D4AF37',         // Gold
+  brightGold: '#FFD700',   // Bright gold
+  black: '#000000',        // Pure black
+  white: '#FFFFFF',        // Pure white
+  darkGray: '#1A1A1A',     // Dark gray
 };
 
 export const buttonStyles = StyleSheet.create({
@@ -89,7 +91,7 @@ export const commonStyles = StyleSheet.create({
     padding: 16,
     marginVertical: 8,
     width: '100%',
-    boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.08)',
+    boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.3)',
     elevation: 2,
   },
   icon: {

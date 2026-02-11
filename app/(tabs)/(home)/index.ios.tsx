@@ -21,28 +21,28 @@ const categoryCards: CategoryCard[] = [
     title: 'Today',
     description: 'Latest news and updates',
     icon: 'calendar-today',
-    gradientColors: ['#2563EB', '#1E40AF'],
+    gradientColors: ['#9333EA', '#7E22CE'],
   },
   {
     id: 'community',
     title: 'Community',
     description: 'Connect with people',
     icon: 'group',
-    gradientColors: ['#7C3AED', '#6D28D9'],
+    gradientColors: ['#D4AF37', '#B8941F'],
   },
   {
     id: 'made-in-albania',
     title: 'Made in Albania',
     description: 'Local products & businesses',
     icon: 'store',
-    gradientColors: ['#EC4899', '#DB2777'],
+    gradientColors: ['#9333EA', '#D4AF37'],
   },
   {
     id: 'discover',
     title: 'Discover',
     description: 'Services & opportunities',
     icon: 'explore',
-    gradientColors: ['#10B981', '#059669'],
+    gradientColors: ['#FFD700', '#D4AF37'],
   },
 ];
 
@@ -74,13 +74,19 @@ export default function HomeScreen() {
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
       {/* Hero Section */}
       <LinearGradient
-        colors={['#2563EB', '#7C3AED']}
+        colors={['#000000', '#1A1A1A']}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={styles.heroSection}
       >
         <View style={styles.heroContent}>
           <Text style={styles.heroTitle}>Albania Hub</Text>
+          <LinearGradient
+            colors={['#D4AF37', '#FFD700']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.goldUnderline}
+          />
           <Text style={styles.heroSubtitle}>Your gateway to Albania in the Pi ecosystem</Text>
         </View>
       </LinearGradient>
@@ -93,7 +99,7 @@ export default function HomeScreen() {
               ios_icon_name="person.circle.fill" 
               android_material_icon_name="account-circle" 
               size={56} 
-              color={colors.primary} 
+              color={colors.gold} 
             />
           </View>
           <Text style={styles.authTitle}>Get Started</Text>
@@ -104,7 +110,7 @@ export default function HomeScreen() {
             disabled={loading}
           >
             <LinearGradient
-              colors={[colors.primary, colors.darkBlue]}
+              colors={[colors.purple, colors.darkPurple]}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
               style={styles.loginButtonGradient}
@@ -120,11 +126,13 @@ export default function HomeScreen() {
               ios_icon_name="checkmark.circle.fill" 
               android_material_icon_name="check-circle" 
               size={40} 
-              color={colors.success} 
+              color={colors.gold} 
             />
           </View>
-          <Text style={styles.welcomeTitle}>{welcomeBackText}</Text>
-          <Text style={styles.welcomeUsername}>{piUserName}</Text>
+          <View style={styles.welcomeTextContainer}>
+            <Text style={styles.welcomeTitle}>{welcomeBackText}</Text>
+            <Text style={styles.welcomeUsername}>{piUserName}</Text>
+          </View>
         </View>
       )}
 
@@ -187,16 +195,18 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.backgroundAlt,
+    backgroundColor: colors.background,
   },
   contentContainer: {
     paddingBottom: 100,
   },
   heroSection: {
     width: '100%',
-    paddingTop: 20,
+    paddingTop: Platform.OS === 'android' ? 60 : 20,
     paddingBottom: 40,
     paddingHorizontal: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
   },
   heroContent: {
     alignItems: 'center',
@@ -204,15 +214,20 @@ const styles = StyleSheet.create({
   heroTitle: {
     fontSize: 36,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
     marginBottom: 8,
     textAlign: 'center',
   },
+  goldUnderline: {
+    width: 80,
+    height: 3,
+    borderRadius: 2,
+    marginBottom: 12,
+  },
   heroSubtitle: {
     fontSize: 16,
-    color: '#FFFFFF',
+    color: colors.textSecondary,
     textAlign: 'center',
-    opacity: 0.95,
   },
   authCard: {
     margin: 20,
@@ -220,11 +235,8 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 32,
     alignItems: 'center',
-    elevation: 4,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
+    borderWidth: 1,
+    borderColor: colors.border,
   },
   authIconContainer: {
     width: 80,
@@ -234,11 +246,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 16,
+    borderWidth: 2,
+    borderColor: colors.gold,
   },
   authTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: colors.text,
+    color: colors.white,
     marginBottom: 8,
   },
   authSubtitle: {
@@ -257,7 +271,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   loginButtonText: {
-    color: '#FFFFFF',
+    color: colors.white,
     fontSize: 16,
     fontWeight: '600',
   },
@@ -268,11 +282,8 @@ const styles = StyleSheet.create({
     padding: 24,
     flexDirection: 'row',
     alignItems: 'center',
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.08,
-    shadowRadius: 4,
+    borderWidth: 1,
+    borderColor: colors.gold,
   },
   welcomeIconContainer: {
     width: 56,
@@ -283,15 +294,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginRight: 16,
   },
+  welcomeTextContainer: {
+    flex: 1,
+  },
   welcomeTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: colors.text,
-    flex: 1,
+    color: colors.white,
+    marginBottom: 4,
   },
   welcomeUsername: {
     fontSize: 16,
-    color: colors.textSecondary,
+    color: colors.gold,
+    fontWeight: '500',
   },
   cardsContainer: {
     padding: 20,
@@ -299,7 +314,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 22,
     fontWeight: 'bold',
-    color: colors.text,
+    color: colors.white,
     marginBottom: 16,
   },
   cardsGrid: {
@@ -313,11 +328,8 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     borderRadius: 16,
     overflow: 'hidden',
-    elevation: 3,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.15,
-    shadowRadius: 6,
+    borderWidth: 1,
+    borderColor: colors.border,
   },
   cardGradient: {
     padding: 20,
@@ -328,7 +340,7 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: 'rgba(255, 255, 255, 0.25)',
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 12,
@@ -336,12 +348,12 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
     marginBottom: 4,
   },
   cardDescription: {
     fontSize: 13,
-    color: '#FFFFFF',
+    color: colors.white,
     opacity: 0.9,
   },
   statsContainer: {
@@ -358,16 +370,13 @@ const styles = StyleSheet.create({
     padding: 16,
     marginHorizontal: 4,
     alignItems: 'center',
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.08,
-    shadowRadius: 4,
+    borderWidth: 1,
+    borderColor: colors.border,
   },
   statNumber: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: colors.primary,
+    color: colors.gold,
     marginBottom: 4,
   },
   statLabel: {

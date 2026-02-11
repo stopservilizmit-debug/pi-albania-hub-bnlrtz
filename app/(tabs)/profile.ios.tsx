@@ -48,7 +48,7 @@ export default function ProfileScreen() {
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
       {/* Profile Header */}
       <LinearGradient
-        colors={['#2563EB', '#7C3AED']}
+        colors={['#9333EA', '#7E22CE']}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={styles.headerGradient}
@@ -58,7 +58,7 @@ export default function ProfileScreen() {
             ios_icon_name="person.circle.fill" 
             android_material_icon_name="account-circle" 
             size={80} 
-            color="#FFFFFF" 
+            color={colors.gold} 
           />
         </View>
         {authenticated ? (
@@ -82,7 +82,7 @@ export default function ProfileScreen() {
               ios_icon_name="lock.circle.fill" 
               android_material_icon_name="lock" 
               size={48} 
-              color={colors.primary} 
+              color={colors.gold} 
             />
             <Text style={styles.authTitle}>Sign In Required</Text>
             <Text style={styles.authDescription}>
@@ -94,13 +94,13 @@ export default function ProfileScreen() {
               disabled={loading}
             >
               <LinearGradient
-                colors={[colors.primary, colors.darkBlue]}
+                colors={[colors.purple, colors.darkPurple]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
                 style={styles.loginButtonGradient}
               >
                 {loading ? (
-                  <ActivityIndicator color="#FFFFFF" />
+                  <ActivityIndicator color={colors.white} />
                 ) : (
                   <Text style={styles.loginButtonText}>{buttonText}</Text>
                 )}
@@ -119,7 +119,7 @@ export default function ProfileScreen() {
                   ios_icon_name="person.fill" 
                   android_material_icon_name="person" 
                   size={20} 
-                  color={colors.textSecondary} 
+                  color={colors.gold} 
                 />
                 <View style={styles.infoContent}>
                   <Text style={styles.infoLabel}>Username</Text>
@@ -132,7 +132,7 @@ export default function ProfileScreen() {
                   ios_icon_name="number.circle.fill" 
                   android_material_icon_name="info" 
                   size={20} 
-                  color={colors.textSecondary} 
+                  color={colors.gold} 
                 />
                 <View style={styles.infoContent}>
                   <Text style={styles.infoLabel}>User ID</Text>
@@ -170,7 +170,7 @@ export default function ProfileScreen() {
                   ios_icon_name="bell.fill" 
                   android_material_icon_name="notifications" 
                   size={22} 
-                  color={colors.textSecondary} 
+                  color={colors.gold} 
                 />
                 <Text style={styles.menuText}>Notifications</Text>
                 <IconSymbol 
@@ -186,7 +186,7 @@ export default function ProfileScreen() {
                   ios_icon_name="lock.fill" 
                   android_material_icon_name="lock" 
                   size={22} 
-                  color={colors.textSecondary} 
+                  color={colors.gold} 
                 />
                 <Text style={styles.menuText}>Privacy</Text>
                 <IconSymbol 
@@ -202,7 +202,7 @@ export default function ProfileScreen() {
                   ios_icon_name="questionmark.circle.fill" 
                   android_material_icon_name="help" 
                   size={22} 
-                  color={colors.textSecondary} 
+                  color={colors.gold} 
                 />
                 <Text style={styles.menuText}>Help & Support</Text>
                 <IconSymbol 
@@ -246,7 +246,7 @@ export default function ProfileScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.backgroundAlt,
+    backgroundColor: colors.background,
   },
   contentContainer: {
     paddingBottom: 100,
@@ -261,20 +261,22 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 50,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: 'rgba(212, 175, 55, 0.2)',
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 16,
+    borderWidth: 2,
+    borderColor: colors.gold,
   },
   headerName: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
     marginBottom: 4,
   },
   headerSubtitle: {
     fontSize: 15,
-    color: '#FFFFFF',
+    color: colors.white,
     opacity: 0.9,
   },
   authSection: {
@@ -285,16 +287,13 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 32,
     alignItems: 'center',
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.08,
-    shadowRadius: 4,
+    borderWidth: 1,
+    borderColor: colors.border,
   },
   authTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: colors.text,
+    color: colors.white,
     marginTop: 16,
     marginBottom: 8,
   },
@@ -315,7 +314,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   loginButtonText: {
-    color: '#FFFFFF',
+    color: colors.white,
     fontSize: 16,
     fontWeight: '600',
   },
@@ -325,18 +324,15 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: colors.text,
+    color: colors.white,
     marginBottom: 12,
   },
   infoCard: {
     backgroundColor: colors.card,
     borderRadius: 12,
     padding: 16,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.08,
-    shadowRadius: 4,
+    borderWidth: 1,
+    borderColor: colors.border,
   },
   infoRow: {
     flexDirection: 'row',
@@ -355,7 +351,7 @@ const styles = StyleSheet.create({
   infoValue: {
     fontSize: 15,
     fontWeight: '600',
-    color: colors.text,
+    color: colors.white,
   },
   infoDivider: {
     height: 1,
@@ -372,16 +368,13 @@ const styles = StyleSheet.create({
     padding: 16,
     marginHorizontal: 4,
     alignItems: 'center',
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.08,
-    shadowRadius: 4,
+    borderWidth: 1,
+    borderColor: colors.border,
   },
   statNumber: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: colors.primary,
+    color: colors.gold,
     marginBottom: 4,
   },
   statLabel: {
@@ -392,11 +385,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.card,
     borderRadius: 12,
     overflow: 'hidden',
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.08,
-    shadowRadius: 4,
+    borderWidth: 1,
+    borderColor: colors.border,
   },
   menuItem: {
     flexDirection: 'row',
@@ -406,7 +396,7 @@ const styles = StyleSheet.create({
   menuText: {
     flex: 1,
     fontSize: 15,
-    color: colors.text,
+    color: colors.white,
     marginLeft: 12,
   },
   menuDivider: {
@@ -421,11 +411,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.08,
-    shadowRadius: 4,
+    borderWidth: 1,
+    borderColor: colors.border,
   },
   logoutButtonText: {
     fontSize: 16,
