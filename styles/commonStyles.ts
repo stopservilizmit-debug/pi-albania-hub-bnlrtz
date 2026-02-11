@@ -2,12 +2,12 @@
 import { StyleSheet, ViewStyle, TextStyle } from 'react-native';
 
 export const colors = {
-  // Modern teal and coral palette
-  primary: '#14B8A6',      // Teal - fresh and modern
-  secondary: '#06B6D4',    // Cyan - vibrant accent
-  accent: '#F97316',       // Orange - warm highlight
+  // Modern deep blue and coral palette
+  primary: '#2563EB',      // Deep blue - professional and trustworthy
+  secondary: '#7C3AED',    // Purple - creative accent
+  accent: '#EC4899',       // Pink - vibrant highlight
   background: '#FFFFFF',   // Clean white
-  backgroundAlt: '#F8FAFC', // Subtle gray
+  backgroundAlt: '#F1F5F9', // Subtle gray-blue
   text: '#0F172A',         // Deep slate
   textSecondary: '#64748B', // Medium slate
   card: '#FFFFFF',         // White cards
@@ -15,10 +15,11 @@ export const colors = {
   highlight: '#FEF3C7',    // Warm yellow highlight
   success: '#10B981',      // Green
   error: '#EF4444',        // Red
-  teal: '#14B8A6',         // Teal
-  cyan: '#06B6D4',         // Cyan
-  orange: '#F97316',       // Orange
-  darkTeal: '#0D9488',     // Dark teal for gradients
+  blue: '#2563EB',         // Deep blue
+  purple: '#7C3AED',       // Purple
+  pink: '#EC4899',         // Pink
+  darkBlue: '#1E40AF',     // Dark blue for gradients
+  darkPurple: '#6D28D9',   // Dark purple for gradients
 };
 
 export const buttonStyles = StyleSheet.create({

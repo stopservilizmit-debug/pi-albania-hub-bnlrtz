@@ -21,28 +21,28 @@ const categoryCards: CategoryCard[] = [
     title: 'Today',
     description: 'Latest news and updates',
     icon: 'calendar-today',
-    gradientColors: ['#14B8A6', '#0D9488'],
+    gradientColors: ['#2563EB', '#1E40AF'],
   },
   {
     id: 'community',
     title: 'Community',
     description: 'Connect with people',
     icon: 'group',
-    gradientColors: ['#06B6D4', '#0891B2'],
+    gradientColors: ['#7C3AED', '#6D28D9'],
   },
   {
     id: 'made-in-albania',
     title: 'Made in Albania',
     description: 'Local products & businesses',
     icon: 'store',
-    gradientColors: ['#F97316', '#EA580C'],
+    gradientColors: ['#EC4899', '#DB2777'],
   },
   {
     id: 'discover',
     title: 'Discover',
     description: 'Services & opportunities',
     icon: 'explore',
-    gradientColors: ['#8B5CF6', '#7C3AED'],
+    gradientColors: ['#10B981', '#059669'],
   },
 ];
 
@@ -74,7 +74,7 @@ export default function HomeScreen() {
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
       {/* Hero Section */}
       <LinearGradient
-        colors={['#14B8A6', '#0D9488']}
+        colors={['#2563EB', '#7C3AED']}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={styles.heroSection}
@@ -104,7 +104,7 @@ export default function HomeScreen() {
             disabled={loading}
           >
             <LinearGradient
-              colors={[colors.primary, colors.darkTeal]}
+              colors={[colors.primary, colors.darkBlue]}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
               style={styles.loginButtonGradient}

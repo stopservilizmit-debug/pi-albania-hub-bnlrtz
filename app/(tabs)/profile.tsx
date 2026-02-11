@@ -48,7 +48,7 @@ export default function ProfileScreen() {
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
       {/* Profile Header */}
       <LinearGradient
-        colors={[colors.primary, colors.darkTeal]}
+        colors={['#2563EB', '#7C3AED']}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={styles.headerGradient}
@@ -94,7 +94,7 @@ export default function ProfileScreen() {
               disabled={loading}
             >
               <LinearGradient
-                colors={[colors.primary, colors.darkTeal]}
+                colors={[colors.primary, colors.darkBlue]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
                 style={styles.loginButtonGradient}
