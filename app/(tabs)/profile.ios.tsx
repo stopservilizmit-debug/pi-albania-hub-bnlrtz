@@ -1,6 +1,6 @@
 
 import { useTheme } from "@react-navigation/native";
-import { ScrollView, StyleSheet, View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
+import { ScrollView, StyleSheet, View, Text, TouchableOpacity, ActivityIndicator, Switch } from "react-native";
 import React, { useState } from "react";
 import { LinearGradient } from 'expo-linear-gradient';
 import { colors } from "@/styles/commonStyles";
@@ -10,6 +10,8 @@ import { IconSymbol } from "@/components/IconSymbol";
 export default function ProfileScreen() {
   const { piUser, authenticated, loading, signInWithPi, signOut } = usePi();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
+  const [darkModeEnabled, setDarkModeEnabled] = useState(true);
   const theme = useTheme();
 
   const handleLogin = async () => {
@@ -65,6 +67,17 @@ export default function ProfileScreen() {
           <>
             <Text style={styles.headerName}>{piUserName}</Text>
             <Text style={styles.headerSubtitle}>Pi Network Member</Text>
+            <View style={styles.badgeContainer}>
+              <View style={styles.badge}>
+                <IconSymbol 
+                  ios_icon_name="checkmark.seal.fill" 
+                  android_material_icon_name="verified" 
+                  size={16} 
+                  color={colors.gold} 
+                />
+                <Text style={styles.badgeText}>Verified</Text>
+              </View>
+            </View>
           </>
         ) : (
           <>
@@ -110,6 +123,57 @@ export default function ProfileScreen() {
         </View>
       ) : (
         <>
+          {/* Quick Actions */}
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Quick Actions</Text>
+            <View style={styles.quickActionsGrid}>
+              <TouchableOpacity style={styles.quickActionCard}>
+                <View style={styles.quickActionIconContainer}>
+                  <IconSymbol 
+                    ios_icon_name="square.and.pencil" 
+                    android_material_icon_name="edit" 
+                    size={24} 
+                    color={colors.gold} 
+                  />
+                </View>
+                <Text style={styles.quickActionText}>Edit Profile</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.quickActionCard}>
+                <View style={styles.quickActionIconContainer}>
+                  <IconSymbol 
+                    ios_icon_name="star.fill" 
+                    android_material_icon_name="star" 
+                    size={24} 
+                    color={colors.gold} 
+                  />
+                </View>
+                <Text style={styles.quickActionText}>Favorites</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.quickActionCard}>
+                <View style={styles.quickActionIconContainer}>
+                  <IconSymbol 
+                    ios_icon_name="clock.fill" 
+                    android_material_icon_name="history" 
+                    size={24} 
+                    color={colors.gold} 
+                  />
+                </View>
+                <Text style={styles.quickActionText}>History</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.quickActionCard}>
+                <View style={styles.quickActionIconContainer}>
+                  <IconSymbol 
+                    ios_icon_name="square.and.arrow.up" 
+                    android_material_icon_name="share" 
+                    size={24} 
+                    color={colors.gold} 
+                  />
+                </View>
+                <Text style={styles.quickActionText}>Share</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
           {/* User Info Section */}
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Account Information</Text>
@@ -139,6 +203,19 @@ export default function ProfileScreen() {
                   <Text style={styles.infoValue}>{piUserId}</Text>
                 </View>
               </View>
+              <View style={styles.infoDivider} />
+              <View style={styles.infoRow}>
+                <IconSymbol 
+                  ios_icon_name="calendar" 
+                  android_material_icon_name="calendar-today" 
+                  size={20} 
+                  color={colors.gold} 
+                />
+                <View style={styles.infoContent}>
+                  <Text style={styles.infoLabel}>Member Since</Text>
+                  <Text style={styles.infoValue}>January 2025</Text>
+                </View>
+              </View>
             </View>
           </View>
 
@@ -147,32 +224,135 @@ export default function ProfileScreen() {
             <Text style={styles.sectionTitle}>Your Stats</Text>
             <View style={styles.statsGrid}>
               <View style={styles.statCard}>
+                <IconSymbol 
+                  ios_icon_name="doc.text.fill" 
+                  android_material_icon_name="description" 
+                  size={20} 
+                  color={colors.gold} 
+                />
                 <Text style={styles.statNumber}>0</Text>
                 <Text style={styles.statLabel}>Posts</Text>
               </View>
               <View style={styles.statCard}>
+                <IconSymbol 
+                  ios_icon_name="person.2.fill" 
+                  android_material_icon_name="group" 
+                  size={20} 
+                  color={colors.gold} 
+                />
                 <Text style={styles.statNumber}>0</Text>
                 <Text style={styles.statLabel}>Connections</Text>
               </View>
               <View style={styles.statCard}>
+                <IconSymbol 
+                  ios_icon_name="chart.bar.fill" 
+                  android_material_icon_name="trending-up" 
+                  size={20} 
+                  color={colors.gold} 
+                />
                 <Text style={styles.statNumber}>0</Text>
                 <Text style={styles.statLabel}>Activities</Text>
               </View>
             </View>
           </View>
 
-          {/* Menu Section */}
+          {/* Achievements Section */}
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Achievements</Text>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.achievementsScroll}>
+              <View style={styles.achievementCard}>
+                <View style={styles.achievementIconContainer}>
+                  <IconSymbol 
+                    ios_icon_name="trophy.fill" 
+                    android_material_icon_name="emoji-events" 
+                    size={32} 
+                    color={colors.gold} 
+                  />
+                </View>
+                <Text style={styles.achievementTitle}>Early Adopter</Text>
+                <Text style={styles.achievementDescription}>Joined in 2025</Text>
+              </View>
+              <View style={styles.achievementCard}>
+                <View style={styles.achievementIconContainer}>
+                  <IconSymbol 
+                    ios_icon_name="flame.fill" 
+                    android_material_icon_name="local-fire-department" 
+                    size={32} 
+                    color={colors.gold} 
+                  />
+                </View>
+                <Text style={styles.achievementTitle}>Active User</Text>
+                <Text style={styles.achievementDescription}>7 day streak</Text>
+              </View>
+              <View style={styles.achievementCard}>
+                <View style={styles.achievementIconContainer}>
+                  <IconSymbol 
+                    ios_icon_name="heart.fill" 
+                    android_material_icon_name="favorite" 
+                    size={32} 
+                    color={colors.gold} 
+                  />
+                </View>
+                <Text style={styles.achievementTitle}>Community Star</Text>
+                <Text style={styles.achievementDescription}>10+ interactions</Text>
+              </View>
+            </ScrollView>
+          </View>
+
+          {/* Preferences Section */}
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Preferences</Text>
+            <View style={styles.menuCard}>
+              <View style={styles.menuItemWithSwitch}>
+                <View style={styles.menuItemLeft}>
+                  <IconSymbol 
+                    ios_icon_name="bell.fill" 
+                    android_material_icon_name="notifications" 
+                    size={22} 
+                    color={colors.gold} 
+                  />
+                  <Text style={styles.menuText}>Notifications</Text>
+                </View>
+                <Switch
+                  value={notificationsEnabled}
+                  onValueChange={setNotificationsEnabled}
+                  trackColor={{ false: colors.border, true: colors.purple }}
+                  thumbColor={notificationsEnabled ? colors.gold : colors.textSecondary}
+                />
+              </View>
+              <View style={styles.menuDivider} />
+              <View style={styles.menuItemWithSwitch}>
+                <View style={styles.menuItemLeft}>
+                  <IconSymbol 
+                    ios_icon_name="moon.fill" 
+                    android_material_icon_name="dark-mode" 
+                    size={22} 
+                    color={colors.gold} 
+                  />
+                  <Text style={styles.menuText}>Dark Mode</Text>
+                </View>
+                <Switch
+                  value={darkModeEnabled}
+                  onValueChange={setDarkModeEnabled}
+                  trackColor={{ false: colors.border, true: colors.purple }}
+                  thumbColor={darkModeEnabled ? colors.gold : colors.textSecondary}
+                />
+              </View>
+            </View>
+          </View>
+
+          {/* Settings Menu */}
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Settings</Text>
             <View style={styles.menuCard}>
               <TouchableOpacity style={styles.menuItem}>
                 <IconSymbol 
-                  ios_icon_name="bell.fill" 
-                  android_material_icon_name="notifications" 
+                  ios_icon_name="person.crop.circle" 
+                  android_material_icon_name="account-circle" 
                   size={22} 
                   color={colors.gold} 
                 />
-                <Text style={styles.menuText}>Notifications</Text>
+                <Text style={styles.menuText}>Account Settings</Text>
                 <IconSymbol 
                   ios_icon_name="chevron.right" 
                   android_material_icon_name="arrow-forward" 
@@ -188,7 +368,7 @@ export default function ProfileScreen() {
                   size={22} 
                   color={colors.gold} 
                 />
-                <Text style={styles.menuText}>Privacy</Text>
+                <Text style={styles.menuText}>Privacy & Security</Text>
                 <IconSymbol 
                   ios_icon_name="chevron.right" 
                   android_material_icon_name="arrow-forward" 
@@ -199,18 +379,126 @@ export default function ProfileScreen() {
               <View style={styles.menuDivider} />
               <TouchableOpacity style={styles.menuItem}>
                 <IconSymbol 
-                  ios_icon_name="questionmark.circle.fill" 
-                  android_material_icon_name="help" 
+                  ios_icon_name="globe" 
+                  android_material_icon_name="language" 
                   size={22} 
                   color={colors.gold} 
                 />
-                <Text style={styles.menuText}>Help & Support</Text>
+                <Text style={styles.menuText}>Language</Text>
+                <View style={styles.menuItemRight}>
+                  <Text style={styles.menuValueText}>English</Text>
+                  <IconSymbol 
+                    ios_icon_name="chevron.right" 
+                    android_material_icon_name="arrow-forward" 
+                    size={20} 
+                    color={colors.textSecondary} 
+                  />
+                </View>
+              </TouchableOpacity>
+              <View style={styles.menuDivider} />
+              <TouchableOpacity style={styles.menuItem}>
+                <IconSymbol 
+                  ios_icon_name="paintbrush.fill" 
+                  android_material_icon_name="palette" 
+                  size={22} 
+                  color={colors.gold} 
+                />
+                <Text style={styles.menuText}>Appearance</Text>
                 <IconSymbol 
                   ios_icon_name="chevron.right" 
                   android_material_icon_name="arrow-forward" 
                   size={20} 
                   color={colors.textSecondary} 
                 />
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          {/* Support & Info */}
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Support & Information</Text>
+            <View style={styles.menuCard}>
+              <TouchableOpacity style={styles.menuItem}>
+                <IconSymbol 
+                  ios_icon_name="questionmark.circle.fill" 
+                  android_material_icon_name="help" 
+                  size={22} 
+                  color={colors.gold} 
+                />
+                <Text style={styles.menuText}>Help Center</Text>
+                <IconSymbol 
+                  ios_icon_name="chevron.right" 
+                  android_material_icon_name="arrow-forward" 
+                  size={20} 
+                  color={colors.textSecondary} 
+                />
+              </TouchableOpacity>
+              <View style={styles.menuDivider} />
+              <TouchableOpacity style={styles.menuItem}>
+                <IconSymbol 
+                  ios_icon_name="envelope.fill" 
+                  android_material_icon_name="email" 
+                  size={22} 
+                  color={colors.gold} 
+                />
+                <Text style={styles.menuText}>Contact Support</Text>
+                <IconSymbol 
+                  ios_icon_name="chevron.right" 
+                  android_material_icon_name="arrow-forward" 
+                  size={20} 
+                  color={colors.textSecondary} 
+                />
+              </TouchableOpacity>
+              <View style={styles.menuDivider} />
+              <TouchableOpacity style={styles.menuItem}>
+                <IconSymbol 
+                  ios_icon_name="doc.text.fill" 
+                  android_material_icon_name="description" 
+                  size={22} 
+                  color={colors.gold} 
+                />
+                <Text style={styles.menuText}>Terms & Conditions</Text>
+                <IconSymbol 
+                  ios_icon_name="chevron.right" 
+                  android_material_icon_name="arrow-forward" 
+                  size={20} 
+                  color={colors.textSecondary} 
+                />
+              </TouchableOpacity>
+              <View style={styles.menuDivider} />
+              <TouchableOpacity style={styles.menuItem}>
+                <IconSymbol 
+                  ios_icon_name="shield.fill" 
+                  android_material_icon_name="security" 
+                  size={22} 
+                  color={colors.gold} 
+                />
+                <Text style={styles.menuText}>Privacy Policy</Text>
+                <IconSymbol 
+                  ios_icon_name="chevron.right" 
+                  android_material_icon_name="arrow-forward" 
+                  size={20} 
+                  color={colors.textSecondary} 
+                />
+              </TouchableOpacity>
+              <View style={styles.menuDivider} />
+              <TouchableOpacity style={styles.menuItem}>
+                <IconSymbol 
+                  ios_icon_name="info.circle.fill" 
+                  android_material_icon_name="info" 
+                  size={22} 
+                  color={colors.gold} 
+                />
+                <Text style={styles.menuText}>About Albania Hub</Text>
+                <View style={styles.menuItemRight}>
+                  <Text style={styles.menuValueText}>v1.0.0</Text>
+                  <IconSymbol 
+                    ios_icon_name="chevron.right" 
+                    android_material_icon_name="arrow-forward" 
+                    size={20} 
+                    color={colors.textSecondary} 
+                  />
+                </View>
               </TouchableOpacity>
             </View>
           </View>
@@ -279,6 +567,26 @@ const styles = StyleSheet.create({
     color: colors.white,
     opacity: 0.9,
   },
+  badgeContainer: {
+    marginTop: 12,
+    flexDirection: 'row',
+  },
+  badge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(212, 175, 55, 0.2)',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: colors.gold,
+  },
+  badgeText: {
+    color: colors.gold,
+    fontSize: 12,
+    fontWeight: '600',
+    marginLeft: 4,
+  },
   authSection: {
     padding: 20,
   },
@@ -326,6 +634,34 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: colors.white,
     marginBottom: 12,
+  },
+  quickActionsGrid: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  quickActionCard: {
+    flex: 1,
+    backgroundColor: colors.card,
+    borderRadius: 12,
+    padding: 12,
+    marginHorizontal: 4,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  quickActionIconContainer: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: 'rgba(212, 175, 55, 0.2)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  quickActionText: {
+    fontSize: 11,
+    color: colors.white,
+    textAlign: 'center',
   },
   infoCard: {
     backgroundColor: colors.card,
@@ -375,11 +711,46 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     color: colors.gold,
+    marginTop: 8,
     marginBottom: 4,
   },
   statLabel: {
     fontSize: 13,
     color: colors.textSecondary,
+  },
+  achievementsScroll: {
+    flexDirection: 'row',
+  },
+  achievementCard: {
+    backgroundColor: colors.card,
+    borderRadius: 12,
+    padding: 16,
+    marginRight: 12,
+    width: 140,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  achievementIconContainer: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: 'rgba(212, 175, 55, 0.2)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  achievementTitle: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: colors.white,
+    textAlign: 'center',
+    marginBottom: 4,
+  },
+  achievementDescription: {
+    fontSize: 12,
+    color: colors.textSecondary,
+    textAlign: 'center',
   },
   menuCard: {
     backgroundColor: colors.card,
@@ -393,11 +764,31 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 16,
   },
+  menuItemWithSwitch: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 16,
+  },
+  menuItemLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+  },
+  menuItemRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   menuText: {
     flex: 1,
     fontSize: 15,
     color: colors.white,
     marginLeft: 12,
+  },
+  menuValueText: {
+    fontSize: 14,
+    color: colors.textSecondary,
+    marginRight: 8,
   },
   menuDivider: {
     height: 1,
