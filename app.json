@@ -4,11 +4,11 @@
     "slug": "Pi Albania Hub",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/natively-dark.png",
+    "icon": "./assets/images/SvWdlmilRmaWvwHT_aZVJQ@2k.webp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/images/natively-dark.png",
+      "image": "./assets/images/SvWdlmilRmaWvwHT_aZVJQ@2k.webp",
       "resizeMode": "contain",
       "backgroundColor": "#000000"
     },
@@ -21,7 +21,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/natively-dark.png",
+        "foregroundImage": "./assets/images/SvWdlmilRmaWvwHT_aZVJQ@2k.webp",
         "backgroundColor": "#000000"
       },
       "edgeToEdgeEnabled": true,
