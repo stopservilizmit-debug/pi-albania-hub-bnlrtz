@@ -1,18 +1,11 @@
 
 import { useTheme } from "@react-navigation/native";
-import { ScrollView, StyleSheet, View, Text, TouchableOpacity, Platform, Image, ImageSourcePropType } from "react-native";
+import { ScrollView, StyleSheet, View, Text, TouchableOpacity, Platform } from "react-native";
 import React from "react";
 import { LinearGradient } from 'expo-linear-gradient';
 import { colors } from "@/styles/commonStyles";
 import { usePi } from "@/contexts/PiContext";
 import { IconSymbol } from "@/components/IconSymbol";
-
-// Helper to resolve image sources (handles both local require() and remote URLs)
-function resolveImageSource(source: string | number | ImageSourcePropType | undefined): ImageSourcePropType {
-  if (!source) return { uri: '' };
-  if (typeof source === 'string') return { uri: source };
-  return source as ImageSourcePropType;
-}
 
 interface CategoryCard {
   id: string;
@@ -77,28 +70,16 @@ export default function HomeScreen() {
   const welcomeBackText = 'Welcome back!';
   const piUserName = piUser?.username || 'Pi User';
 
-  const logoSource = require('@/assets/images/d249e466-63a4-4063-8b0d-150a833023e0.png');
-
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-      {/* Hero Section with Logo */}
+      {/* Hero Section */}
       <LinearGradient
-        colors={['#000000', '#1A1A1A', '#2A2A2A']}
+        colors={['#000000', '#1A1A1A']}
         start={{ x: 0, y: 0 }}
-        end={{ x: 0, y: 1 }}
+        end={{ x: 1, y: 1 }}
         style={styles.heroSection}
       >
         <View style={styles.heroContent}>
-          {/* Logo Image */}
-          <View style={styles.logoContainer}>
-            <Image 
-              source={resolveImageSource(logoSource)} 
-              style={styles.logoImage}
-              resizeMode="contain"
-            />
-          </View>
-          
-          {/* App Title */}
           <Text style={styles.heroTitle}>Albania Hub</Text>
           <LinearGradient
             colors={['#D4AF37', '#FFD700']}
@@ -229,17 +210,6 @@ const styles = StyleSheet.create({
   },
   heroContent: {
     alignItems: 'center',
-  },
-  logoContainer: {
-    width: 180,
-    height: 180,
-    marginBottom: 24,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  logoImage: {
-    width: '100%',
-    height: '100%',
   },
   heroTitle: {
     fontSize: 36,
