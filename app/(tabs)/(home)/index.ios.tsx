@@ -70,7 +70,7 @@ export default function HomeScreen() {
     <ScrollView style={[styles.container, { backgroundColor: colors.background }]}>
       {/* Hero Section with New Albanian Eagle Logo */}
       <LinearGradient
-        colors={['#000000', '#1a1a1a', '#2d2d2d']}
+        colors={['#000000', '#000000', '#000000']}
         style={styles.heroSection}
       >
         <View style={styles.logoContainer}>
@@ -79,9 +79,9 @@ export default function HomeScreen() {
             style={styles.heroLogo}
             resizeMode="contain"
           />
-          {/* Black gradient overlay on the image */}
+          {/* Black gradient overlay matching app background */}
           <LinearGradient
-            colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.3)', 'rgba(0, 0, 0, 0.7)', 'rgba(0, 0, 0, 0.9)']}
+            colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.4)', 'rgba(0, 0, 0, 0.8)', '#000000']}
             style={styles.imageGradientOverlay}
             pointerEvents="none"
           />
