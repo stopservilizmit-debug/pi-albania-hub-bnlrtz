@@ -79,9 +79,10 @@ export default function HomeScreen() {
             style={styles.heroLogo}
             resizeMode="contain"
           />
-          {/* Black gradient overlay matching app background */}
+          {/* Black gradient overlay perfectly matching app background #000000 */}
           <LinearGradient
-            colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.4)', 'rgba(0, 0, 0, 0.8)', '#000000']}
+            colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.3)', 'rgba(0, 0, 0, 0.7)', 'rgba(0, 0, 0, 0.95)', '#000000']}
+            locations={[0, 0.4, 0.65, 0.85, 1]}
             style={styles.imageGradientOverlay}
             pointerEvents="none"
           />
