@@ -88,8 +88,8 @@ export default function HomeScreen() {
         </View>
         
         <View style={styles.heroTextContainer}>
-          <Text style={styles.heroTitle}>Pi Albania Hub</Text>
-          <Text style={styles.heroSubtitle}>The Digital Infrastructure of Pi Albania</Text>
+          <Text style={styles.heroTitle}>Albania Hub</Text>
+          <Text style={styles.heroSubtitle}>The Digital Infrastructure of Albania.pi</Text>
         </View>
 
         {!authenticated && (
