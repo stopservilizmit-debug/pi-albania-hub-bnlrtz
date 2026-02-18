@@ -117,7 +117,7 @@ export default function FloatingTabBar({
     };
   });
 
-  // Dynamic styles based on theme
+  // Dynamic styles based on anthracite theme
   const dynamicStyles = {
     blurContainer: {
       ...styles.blurContainer,
@@ -125,13 +125,13 @@ export default function FloatingTabBar({
       borderColor: colors.border,
       ...Platform.select({
         ios: {
-          backgroundColor: 'rgba(31, 31, 31, 0.8)',
+          backgroundColor: 'rgba(11, 12, 16, 0.8)',
         },
         android: {
-          backgroundColor: 'rgba(31, 31, 31, 0.95)',
+          backgroundColor: 'rgba(11, 12, 16, 0.95)',
         },
         web: {
-          backgroundColor: 'rgba(31, 31, 31, 0.95)',
+          backgroundColor: 'rgba(11, 12, 16, 0.95)',
           backdropFilter: 'blur(10px)',
         },
       }),
@@ -141,7 +141,7 @@ export default function FloatingTabBar({
     },
     indicator: {
       ...styles.indicator,
-      backgroundColor: 'rgba(147, 51, 234, 0.3)',
+      backgroundColor: 'rgba(220, 20, 60, 0.25)',
       width: `${tabWidthPercent}%` as `${number}%`,
     },
   };
@@ -177,13 +177,13 @@ export default function FloatingTabBar({
                       android_material_icon_name={tab.icon}
                       ios_icon_name={tab.icon}
                       size={26}
-                      color={isActive ? colors.gold : colors.textSecondary}
+                      color={isActive ? colors.crimson : colors.textSecondary}
                     />
                     <Text
                       style={[
                         styles.tabLabel,
                         { color: colors.textSecondary },
-                        isActive && { color: colors.gold, fontWeight: '600' },
+                        isActive && { color: colors.crimson, fontWeight: '600' },
                       ]}
                     >
                       {tab.label}
