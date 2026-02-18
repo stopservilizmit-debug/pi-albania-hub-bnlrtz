@@ -16,7 +16,6 @@ import {
   ThemeProvider,
 } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
-import { colors } from "@/styles/commonStyles";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -47,17 +46,17 @@ export default function RootLayout() {
     return null;
   }
 
-  // Custom dark theme with anthracite background and deep red accents
-  const AnthraciteTheme: Theme = {
-    ...DarkTheme,
+  // Custom light theme for Pi Albania Hub
+  const LightTheme: Theme = {
+    ...DefaultTheme,
     colors: {
-      ...DarkTheme.colors,
-      primary: colors.crimson,
-      background: colors.anthracite,
-      card: colors.card,
-      text: colors.text,
-      border: colors.border,
-      notification: colors.crimson,
+      ...DefaultTheme.colors,
+      primary: '#7C3AED',
+      background: '#FFFFFF',
+      card: '#FFFFFF',
+      text: '#111827',
+      border: '#E5E7EB',
+      notification: '#EC4899',
     },
   };
 
@@ -65,11 +64,11 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <ThemeProvider value={AnthraciteTheme}>
+      <ThemeProvider value={LightTheme}>
         <WidgetProvider>
           <PiProvider>
-            <SystemBars style="light" />
-            <StatusBar style="light" />
+            <SystemBars style="dark" />
+            <StatusBar style="dark" />
             <Stack
               screenOptions={{
                 headerShown: false,
