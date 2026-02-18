@@ -41,36 +41,36 @@ export default function HomeScreen() {
       title: 'Today',
       description: 'Latest news and updates from Albania',
       icon: 'calendar-today',
-      gradientColors: ['#9333EA', '#7C3AED'],
+      gradientColors: ['#8B0000', '#5C0000'],
     },
     {
       id: 'community',
       title: 'Community',
       description: 'Connect with people and explore posts',
       icon: 'group',
-      gradientColors: ['#D4AF37', '#B8941F'],
+      gradientColors: ['#DC143C', '#8B0000'],
     },
     {
       id: 'made-in-albania',
       title: 'Made in Albania',
       description: 'Discover local products and businesses',
       icon: 'store',
-      gradientColors: ['#9333EA', '#7C3AED'],
+      gradientColors: ['#8B0000', '#5C0000'],
     },
     {
       id: 'discover',
       title: 'Discover',
       description: 'Explore services and opportunities',
       icon: 'explore',
-      gradientColors: ['#D4AF37', '#B8941F'],
+      gradientColors: ['#DC143C', '#8B0000'],
     },
   ];
 
   return (
-    <ScrollView style={[styles.container, { backgroundColor: colors.background }]}>
-      {/* Hero Section with New Albanian Eagle Logo */}
+    <ScrollView style={[styles.container, { backgroundColor: colors.anthracite }]}>
+      {/* Hero Section with Albanian Eagle Logo */}
       <LinearGradient
-        colors={['#000000', '#000000', '#000000']}
+        colors={[colors.anthracite, colors.anthracite, colors.anthracite]}
         style={styles.heroSection}
       >
         <View style={styles.logoContainer}>
@@ -79,9 +79,10 @@ export default function HomeScreen() {
             style={styles.heroLogo}
             resizeMode="contain"
           />
-          {/* Black gradient overlay matching app background */}
+          {/* Anthracite gradient overlay perfectly matching app background */}
           <LinearGradient
-            colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.4)', 'rgba(0, 0, 0, 0.8)', '#000000']}
+            colors={['rgba(11, 12, 16, 0)', 'rgba(11, 12, 16, 0.3)', 'rgba(11, 12, 16, 0.7)', 'rgba(11, 12, 16, 0.95)', '#0B0C10']}
+            locations={[0, 0.4, 0.65, 0.85, 1]}
             style={styles.imageGradientOverlay}
             pointerEvents="none"
           />
@@ -98,7 +99,7 @@ export default function HomeScreen() {
             onPress={handleLogin}
           >
             <LinearGradient
-              colors={['#D4AF37', '#B8941F']}
+              colors={['#DC143C', '#8B0000']}
               style={styles.loginButtonGradient}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
@@ -205,7 +206,7 @@ const styles = StyleSheet.create({
   },
   heroSubtitle: {
     fontSize: 16,
-    color: '#D4AF37',
+    color: '#CCCCCC',
     textAlign: 'center',
     paddingHorizontal: 20,
   },
@@ -215,7 +216,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     overflow: 'hidden',
     elevation: 4,
-    shadowColor: '#D4AF37',
+    shadowColor: '#DC143C',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 8,
@@ -228,7 +229,7 @@ const styles = StyleSheet.create({
   loginButtonText: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#000000',
+    color: '#FFFFFF',
   },
   welcomeContainer: {
     alignItems: 'center',
@@ -236,13 +237,13 @@ const styles = StyleSheet.create({
   },
   welcomeText: {
     fontSize: 16,
-    color: '#FFFFFF',
+    color: '#CCCCCC',
     marginBottom: 4,
   },
   usernameText: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#D4AF37',
+    color: '#DC143C',
   },
   cardsContainer: {
     padding: 20,
@@ -259,7 +260,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     marginBottom: 16,
     elevation: 4,
-    shadowColor: '#000',
+    shadowColor: '#DC143C',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 8,
@@ -268,7 +269,7 @@ const styles = StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius: 28,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: 16,

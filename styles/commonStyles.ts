@@ -2,26 +2,32 @@
 import { StyleSheet, ViewStyle, TextStyle } from 'react-native';
 
 export const colors = {
-  // Black, White, Gold, Purple palette
-  primary: '#9333EA',      // Purple - main brand color
-  secondary: '#D4AF37',    // Gold - accent color
-  accent: '#FFD700',       // Bright gold - highlights
-  background: '#000000',   // Black background
-  backgroundAlt: '#1A1A1A', // Dark gray for cards
-  text: '#FFFFFF',         // White text
-  textSecondary: '#B8B8B8', // Light gray text
-  card: '#1F1F1F',         // Dark card background
-  border: '#333333',       // Dark border
-  highlight: '#FFD700',    // Gold highlight
-  success: '#10B981',      // Green (keep for status)
-  error: '#EF4444',        // Red (keep for status)
-  purple: '#9333EA',       // Purple
-  darkPurple: '#7E22CE',   // Dark purple for gradients
-  gold: '#D4AF37',         // Gold
-  brightGold: '#FFD700',   // Bright gold
-  black: '#000000',        // Pure black
-  white: '#FFFFFF',        // Pure white
-  darkGray: '#1A1A1A',     // Dark gray
+  // Near-black anthracite with deep red accents - Luxury tech aesthetic
+  anthracite: '#0B0C10',      // Near-black background (main)
+  darkGray: '#1A1A1A',        // Dark gray for cards
+  deepRed: '#8B0000',         // Deep red accent (dark red)
+  crimson: '#DC143C',         // Crimson for highlights
+  darkRed: '#5C0000',         // Even darker red for gradients
+  gold: '#D4AF37',            // Gold accent (minimal use)
+  brightGold: '#FFD700',      // Bright gold for special highlights
+  
+  // Semantic colors
+  primary: '#8B0000',         // Deep red - main brand color
+  secondary: '#DC143C',       // Crimson - accent color
+  accent: '#DC143C',          // Crimson - highlights
+  background: '#0B0C10',      // Anthracite background
+  backgroundAlt: '#1A1A1A',   // Dark gray for cards
+  text: '#FFFFFF',            // White text
+  textSecondary: '#CCCCCC',   // Light gray text
+  card: '#1F1F1F',            // Dark card background
+  border: '#333333',          // Dark border
+  highlight: '#DC143C',       // Crimson highlight
+  success: '#059669',         // Green (keep for status)
+  error: '#DC143C',           // Crimson for errors
+  
+  // Legacy aliases for compatibility
+  black: '#0B0C10',           // Anthracite (not pure black)
+  white: '#FFFFFF',           // Pure white
 };
 
 export const buttonStyles = StyleSheet.create({
