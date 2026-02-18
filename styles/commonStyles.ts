@@ -2,8 +2,8 @@
 import { StyleSheet, ViewStyle, TextStyle } from 'react-native';
 
 export const colors = {
-  // Near-black anthracite with deep red accents - Luxury tech aesthetic
-  anthracite: '#0B0C10',      // Near-black background (main)
+  // Deep red accents with pure black - Luxury tech aesthetic
+  black: '#000000',           // Pure black background (restored)
   darkGray: '#1A1A1A',        // Dark gray for cards
   deepRed: '#8B0000',         // Deep red accent (dark red)
   crimson: '#DC143C',         // Crimson for highlights
@@ -15,7 +15,7 @@ export const colors = {
   primary: '#8B0000',         // Deep red - main brand color
   secondary: '#DC143C',       // Crimson - accent color
   accent: '#DC143C',          // Crimson - highlights
-  background: '#0B0C10',      // Anthracite background
+  background: '#000000',      // Pure black background (restored)
   backgroundAlt: '#1A1A1A',   // Dark gray for cards
   text: '#FFFFFF',            // White text
   textSecondary: '#CCCCCC',   // Light gray text
@@ -26,7 +26,6 @@ export const colors = {
   error: '#DC143C',           // Crimson for errors
   
   // Legacy aliases for compatibility
-  black: '#0B0C10',           // Anthracite (not pure black)
   white: '#FFFFFF',           // Pure white
 };
 
