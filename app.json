@@ -1,8 +1,7 @@
-
 {
   "expo": {
     "name": "Pi Albania Hub",
-    "slug": "pi-albania-hub",
+    "slug": "Pi Albania Hub",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/SvWdlmilRmaWvwHT_aZVJQ@2k.webp",
@@ -38,7 +37,7 @@
       "expo-router",
       "expo-web-browser"
     ],
-    "scheme": "pialbaniahub",
+    "scheme": "Pi Albania Hub",
     "experiments": {
       "typedRoutes": true
     },
