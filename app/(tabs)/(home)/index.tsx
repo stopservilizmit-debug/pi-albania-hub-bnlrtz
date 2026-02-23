@@ -87,7 +87,7 @@ export default function HomeScreen() {
             end={{ x: 1, y: 0 }}
             style={styles.goldUnderline}
           />
-          <Text style={styles.heroSubtitle}>The Digital Infrastructure of Pi Albania</Text>
+          <Text style={styles.heroSubtitle}>The Digital Infrastructure of Albania.pi</Text>
         </View>
       </LinearGradient>
 
