@@ -70,7 +70,7 @@ export function PiProvider({ children }: PiProviderProps) {
         // @ts-expect-error - Pi SDK is loaded dynamically
         if (typeof window !== 'undefined' && window.Pi) {
           console.log('PiProvider: Pi SDK already loaded');
-          initializePiSDK();
+          await initializePiSDK();
           return;
         }
 
@@ -112,7 +112,6 @@ export function PiProvider({ children }: PiProviderProps) {
 
   const onIncompletePaymentFound = useCallback((payment: any) => {
     console.log('PiProvider: Incomplete payment found:', payment);
-    // Handle incomplete payment if needed
   }, []);
 
   const signInWithPi = useCallback(async () => {
@@ -120,7 +119,10 @@ export function PiProvider({ children }: PiProviderProps) {
     try {
       if (!piSDKLoaded) {
         console.warn('PiProvider: Cannot authenticate - Pi SDK not loaded');
-        alert('Pi SDK is not available. Please open this app in Pi Browser to use Pi Authentication.');
+        const message = 'Pi SDK is not available. Please open this app in Pi Browser to use Pi Authentication.';
+        if (Platform.OS === 'web') {
+          alert(message);
+        }
         return;
       }
 
@@ -141,11 +143,15 @@ export function PiProvider({ children }: PiProviderProps) {
         setAuthenticated(true);
       } else {
         console.error('PiProvider: Pi SDK not available on window object');
-        alert('Pi SDK is not available. Please try again.');
+        if (Platform.OS === 'web') {
+          alert('Pi SDK is not available. Please try again.');
+        }
       }
     } catch (error) {
       console.error('PiProvider: Authentication error:', error);
-      alert('Failed to authenticate with Pi. Please try again.');
+      if (Platform.OS === 'web') {
+        alert('Failed to authenticate with Pi. Please try again.');
+      }
     }
   }, [piSDKLoaded, onIncompletePaymentFound]);
 

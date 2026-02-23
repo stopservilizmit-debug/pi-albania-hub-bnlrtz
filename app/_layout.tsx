@@ -16,11 +16,12 @@ import {
   ThemeProvider,
 } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
+import { colors } from "@/styles/commonStyles";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  console.log('RootLayout: Initializing app');
+  console.log('RootLayout: Initializing Pi Albania Hub');
   const colorScheme = useColorScheme();
   const [loaded, error] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
@@ -36,48 +37,65 @@ export default function RootLayout() {
   useEffect(() => {
     if (error) {
       console.error('RootLayout: Font loading error:', error);
-      // Hide splash screen even if fonts fail to load
       SplashScreen.hideAsync();
     }
   }, [error]);
 
-  // Show a simple loading view while fonts are loading
   if (!loaded && !error) {
     return null;
   }
 
-  // Custom light theme for Pi Albania Hub
-  const LightTheme: Theme = {
-    ...DefaultTheme,
+  // Custom dark theme for Pi Albania Hub - Anthracite & Gold
+  const AlbaniaHubTheme: Theme = {
+    ...DarkTheme,
     colors: {
-      ...DefaultTheme.colors,
-      primary: '#7C3AED',
-      background: '#FFFFFF',
-      card: '#FFFFFF',
-      text: '#111827',
-      border: '#E5E7EB',
-      notification: '#EC4899',
+      ...DarkTheme.colors,
+      primary: colors.purple,
+      background: colors.background,
+      card: colors.card,
+      text: colors.text,
+      border: colors.border,
+      notification: colors.gold,
     },
   };
 
-  console.log('RootLayout: Rendering main app structure');
+  console.log('RootLayout: Rendering main app structure with dark theme');
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <ThemeProvider value={LightTheme}>
+      <ThemeProvider value={AlbaniaHubTheme}>
         <WidgetProvider>
           <PiProvider>
-            <SystemBars style="dark" />
-            <StatusBar style="dark" />
+            <SystemBars style="light" />
+            <StatusBar style="light" />
             <Stack
               screenOptions={{
                 headerShown: false,
+                contentStyle: { backgroundColor: colors.background },
               }}
             >
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-              <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-              <Stack.Screen name="formsheet" options={{ presentation: 'formSheet' }} />
-              <Stack.Screen name="transparent-modal" options={{ presentation: 'transparentModal' }} />
+              <Stack.Screen 
+                name="modal" 
+                options={{ 
+                  presentation: 'modal',
+                  contentStyle: { backgroundColor: colors.background }
+                }} 
+              />
+              <Stack.Screen 
+                name="formsheet" 
+                options={{ 
+                  presentation: 'formSheet',
+                  contentStyle: { backgroundColor: colors.background }
+                }} 
+              />
+              <Stack.Screen 
+                name="transparent-modal" 
+                options={{ 
+                  presentation: 'transparentModal',
+                  contentStyle: { backgroundColor: 'transparent' }
+                }} 
+              />
             </Stack>
           </PiProvider>
         </WidgetProvider>
