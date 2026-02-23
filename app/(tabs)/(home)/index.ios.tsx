@@ -44,6 +44,13 @@ const categoryCards: CategoryCard[] = [
     icon: 'explore',
     gradientColors: ['#FFD700', '#D4AF37'],
   },
+  {
+    id: 'games',
+    title: 'Games',
+    description: 'Play and compete',
+    icon: 'videogame-asset',
+    gradientColors: ['#8B0000', '#DC143C'],
+  },
 ];
 
 export default function HomeScreen() {
@@ -202,7 +209,7 @@ const styles = StyleSheet.create({
   },
   heroSection: {
     width: '100%',
-    paddingTop: Platform.OS === 'android' ? 60 : 20,
+    paddingTop: 20,
     paddingBottom: 40,
     paddingHorizontal: 20,
     borderBottomWidth: 1,
