@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
   },
   heroSection: {
     width: '100%',
-    paddingTop: Platform.OS === 'android' ? 60 : 20,
+    paddingTop: 20,
     paddingBottom: 40,
     paddingHorizontal: 20,
     borderBottomWidth: 1,

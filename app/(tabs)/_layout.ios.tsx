@@ -4,7 +4,7 @@ import { Stack } from 'expo-router';
 import FloatingTabBar, { TabBarItem } from '@/components/FloatingTabBar';
 
 export default function TabLayout() {
-  console.log('TabLayout: Rendering tab navigation (iOS)');
+  console.log('TabLayout (iOS): Rendering tab navigation');
   
   const tabs: TabBarItem[] = [
     {
