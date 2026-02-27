@@ -44,13 +44,6 @@ const categoryCards: CategoryCard[] = [
     icon: 'explore',
     gradientColors: ['#FFD700', '#D4AF37'],
   },
-  {
-    id: 'games',
-    title: 'Games',
-    description: 'Play and compete',
-    icon: 'videogame-asset',
-    gradientColors: ['#8B0000', '#DC143C'],
-  },
 ];
 
 export default function HomeScreen() {
