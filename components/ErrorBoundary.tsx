@@ -26,12 +26,13 @@ class ErrorBoundary extends Component<Props, State> {
   }
 
   static getDerivedStateFromError(error: Error): Partial<State> {
-    return { hasError: true };
+    console.error('ErrorBoundary: Caught error:', error);
+    return { hasError: true, error };
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error('ErrorBoundary caught an error:', error);
-    console.error('Error info:', errorInfo);
+    console.error('ErrorBoundary: Component error:', error);
+    console.error('ErrorBoundary: Error info:', errorInfo);
     
     this.setState({
       error,
@@ -44,6 +45,7 @@ class ErrorBoundary extends Component<Props, State> {
   }
 
   handleReset = () => {
+    console.log('ErrorBoundary: Resetting error state');
     this.setState({
       hasError: false,
       error: null,
@@ -62,22 +64,30 @@ class ErrorBoundary extends Component<Props, State> {
 
       return (
         <View style={styles.container}>
-          <View style={styles.content}>
+          <ScrollView contentContainerStyle={styles.scrollContent}>
             <Text style={styles.title}>Oops! Something went wrong</Text>
-            <Text style={styles.subtitle}>The app encountered an unexpected error</Text>
+            <Text style={styles.subtitle}>
+              The app encountered an unexpected error. Don't worry, your data is safe.
+            </Text>
             
-            <ScrollView style={styles.errorContainer}>
+            <View style={styles.errorContainer}>
               <Text style={styles.errorTitle}>Error Details:</Text>
-              <Text style={styles.errorText}>{errorMessage}</Text>
+              <Text style={styles.errorMessage}>{errorMessage}</Text>
               
-              <Text style={styles.errorTitle}>Stack Trace:</Text>
-              <Text style={styles.errorText}>{errorStack}</Text>
-            </ScrollView>
+              <Text style={styles.stackTitle}>Stack Trace:</Text>
+              <ScrollView style={styles.stackContainer} nestedScrollEnabled>
+                <Text style={styles.stackText}>{errorStack}</Text>
+              </ScrollView>
+            </View>
 
             <TouchableOpacity style={styles.button} onPress={this.handleReset}>
               <Text style={styles.buttonText}>Try Again</Text>
             </TouchableOpacity>
-          </View>
+
+            <Text style={styles.helpText}>
+              If this problem persists, please contact support.
+            </Text>
+          </ScrollView>
         </View>
       );
     }
@@ -90,33 +100,33 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
+  },
+  scrollContent: {
+    flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
-  },
-  content: {
-    width: '100%',
-    maxWidth: 500,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     color: colors.white,
-    marginBottom: 8,
+    marginBottom: 12,
     textAlign: 'center',
   },
   subtitle: {
     fontSize: 16,
     color: colors.textSecondary,
-    marginBottom: 24,
     textAlign: 'center',
+    marginBottom: 24,
+    lineHeight: 22,
   },
   errorContainer: {
+    width: '100%',
     backgroundColor: colors.card,
     borderRadius: 12,
     padding: 16,
     marginBottom: 24,
-    maxHeight: 300,
     borderWidth: 1,
     borderColor: colors.border,
   },
@@ -124,24 +134,50 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     color: colors.gold,
-    marginTop: 12,
     marginBottom: 8,
   },
-  errorText: {
+  errorMessage: {
+    fontSize: 14,
+    color: colors.text,
+    marginBottom: 16,
+    lineHeight: 20,
+  },
+  stackTitle: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: colors.gold,
+    marginBottom: 8,
+  },
+  stackContainer: {
+    maxHeight: 200,
+    backgroundColor: colors.backgroundAlt,
+    borderRadius: 8,
+    padding: 12,
+  },
+  stackText: {
     fontSize: 12,
     color: colors.textSecondary,
-    fontFamily: 'Courier',
+    lineHeight: 18,
   },
   button: {
     backgroundColor: colors.purple,
+    paddingHorizontal: 32,
+    paddingVertical: 16,
     borderRadius: 12,
-    padding: 16,
+    marginBottom: 16,
+    minWidth: 200,
     alignItems: 'center',
   },
   buttonText: {
     color: colors.white,
     fontSize: 16,
     fontWeight: '600',
+  },
+  helpText: {
+    fontSize: 14,
+    color: colors.textSecondary,
+    textAlign: 'center',
+    fontStyle: 'italic',
   },
 });
 

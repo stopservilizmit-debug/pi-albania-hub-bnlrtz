@@ -8,7 +8,7 @@ import { IconSymbol } from "@/components/IconSymbol";
 import React, { useState } from "react";
 
 export default function ProfileScreen() {
-  console.log('ProfileScreen: Rendering profile screen');
+  console.log('ProfileScreen: Rendering profile screen (iOS)');
   const { piUser, authenticated, loading, signInWithPi, signOut } = usePi();
   const theme = useTheme();
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);

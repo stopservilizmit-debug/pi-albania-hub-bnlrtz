@@ -30,14 +30,18 @@ function RootLayoutContent() {
   useEffect(() => {
     if (loaded) {
       console.log('RootLayout: Fonts loaded, hiding splash screen');
-      SplashScreen.hideAsync();
+      SplashScreen.hideAsync().catch((err) => {
+        console.error('RootLayout: Error hiding splash screen:', err);
+      });
     }
   }, [loaded]);
 
   useEffect(() => {
     if (error) {
       console.error('RootLayout: Font loading error:', error);
-      SplashScreen.hideAsync();
+      SplashScreen.hideAsync().catch((err) => {
+        console.error('RootLayout: Error hiding splash screen:', err);
+      });
     }
   }, [error]);
 
