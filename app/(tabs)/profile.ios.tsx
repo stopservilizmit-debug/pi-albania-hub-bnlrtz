@@ -8,7 +8,7 @@ import { IconSymbol } from "@/components/IconSymbol";
 import React, { useState } from "react";
 
 export default function ProfileScreen() {
-  console.log('ProfileScreen (iOS): Rendering profile screen');
+  console.log('ProfileScreen: Rendering profile screen');
   const { piUser, authenticated, loading, signInWithPi, signOut } = usePi();
   const theme = useTheme();
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
@@ -261,7 +261,7 @@ const styles = StyleSheet.create({
   },
   headerSection: {
     width: '100%',
-    paddingTop: 20,
+    paddingTop: 60,
     paddingBottom: 24,
     paddingHorizontal: 20,
     borderBottomWidth: 1,

@@ -1,6 +1,6 @@
 
 import { useTheme } from "@react-navigation/native";
-import { ScrollView, StyleSheet, View, Text, TouchableOpacity, Platform } from "react-native";
+import { ScrollView, StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import { LinearGradient } from 'expo-linear-gradient';
 import { colors } from "@/styles/commonStyles";
@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
   },
   heroSection: {
     width: '100%',
-    paddingTop: 20,
+    paddingTop: 60,
     paddingBottom: 40,
     paddingHorizontal: 20,
     borderBottomWidth: 1,

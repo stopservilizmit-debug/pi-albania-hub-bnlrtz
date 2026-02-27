@@ -32,11 +32,17 @@ interface PiProviderProps {
 
 export function PiProvider({ children }: PiProviderProps) {
   const [piUser, setPiUser] = useState<PiUser | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [authenticated, setAuthenticated] = useState(false);
   const [piSDKLoaded, setPiSDKLoaded] = useState(false);
 
   const initializePiSDK = useCallback(async () => {
+    if (Platform.OS !== 'web') {
+      console.log('PiProvider: Not on web platform, skipping Pi SDK initialization');
+      setLoading(false);
+      return;
+    }
+
     try {
       console.log('PiProvider: Checking for Pi SDK on window object');
       // @ts-expect-error - Pi SDK is loaded dynamically
@@ -62,42 +68,41 @@ export function PiProvider({ children }: PiProviderProps) {
   }, []);
 
   const loadPiSDK = useCallback(async () => {
-    try {
-      if (Platform.OS === 'web') {
-        console.log('PiProvider: Loading Pi SDK script for web platform');
-        
-        // Check if script is already loaded
-        // @ts-expect-error - Pi SDK is loaded dynamically
-        if (typeof window !== 'undefined' && window.Pi) {
-          console.log('PiProvider: Pi SDK already loaded');
-          await initializePiSDK();
-          return;
-        }
+    if (Platform.OS !== 'web') {
+      console.log('PiProvider: Running on native platform - Pi SDK not available');
+      setLoading(false);
+      return;
+    }
 
-        // Load Pi SDK script dynamically
-        const script = document.createElement('script');
-        script.src = 'https://sdk.minepi.com/pi-sdk.js';
-        script.async = true;
-        
-        script.onload = () => {
-          console.log('PiProvider: Pi SDK script loaded successfully');
-          initializePiSDK();
-        };
-        
-        script.onerror = (error) => {
-          console.warn('PiProvider: Failed to load Pi SDK script:', error);
-          console.log('PiProvider: Continuing without Pi SDK - app will work in limited mode');
-          setPiSDKLoaded(false);
-          setLoading(false);
-        };
-        
-        document.head.appendChild(script);
-      } else {
-        // For native platforms, Pi SDK is not available
-        console.log('PiProvider: Running on native platform - Pi SDK not available');
+    try {
+      console.log('PiProvider: Loading Pi SDK script for web platform');
+      
+      // Check if script is already loaded
+      // @ts-expect-error - Pi SDK is loaded dynamically
+      if (typeof window !== 'undefined' && window.Pi) {
+        console.log('PiProvider: Pi SDK already loaded');
+        await initializePiSDK();
+        return;
+      }
+
+      // Load Pi SDK script dynamically
+      const script = document.createElement('script');
+      script.src = 'https://sdk.minepi.com/pi-sdk.js';
+      script.async = true;
+      
+      script.onload = () => {
+        console.log('PiProvider: Pi SDK script loaded successfully');
+        initializePiSDK();
+      };
+      
+      script.onerror = (error) => {
+        console.warn('PiProvider: Failed to load Pi SDK script:', error);
+        console.log('PiProvider: Continuing without Pi SDK - app will work in limited mode');
         setPiSDKLoaded(false);
         setLoading(false);
-      }
+      };
+      
+      document.head.appendChild(script);
     } catch (error) {
       console.error('PiProvider: Error in loadPiSDK:', error);
       setPiSDKLoaded(false);
@@ -116,13 +121,16 @@ export function PiProvider({ children }: PiProviderProps) {
 
   const signInWithPi = useCallback(async () => {
     console.log('PiProvider: User initiated sign in with Pi');
+    
+    if (Platform.OS !== 'web') {
+      console.warn('PiProvider: Pi authentication only available on web platform');
+      return;
+    }
+
     try {
       if (!piSDKLoaded) {
         console.warn('PiProvider: Cannot authenticate - Pi SDK not loaded');
-        const message = 'Pi SDK is not available. Please open this app in Pi Browser to use Pi Authentication.';
-        if (Platform.OS === 'web') {
-          alert(message);
-        }
+        alert('Pi SDK is not available. Please open this app in Pi Browser to use Pi Authentication.');
         return;
       }
 
@@ -143,15 +151,11 @@ export function PiProvider({ children }: PiProviderProps) {
         setAuthenticated(true);
       } else {
         console.error('PiProvider: Pi SDK not available on window object');
-        if (Platform.OS === 'web') {
-          alert('Pi SDK is not available. Please try again.');
-        }
+        alert('Pi SDK is not available. Please try again.');
       }
     } catch (error) {
       console.error('PiProvider: Authentication error:', error);
-      if (Platform.OS === 'web') {
-        alert('Failed to authenticate with Pi. Please try again.');
-      }
+      alert('Failed to authenticate with Pi. Please try again.');
     }
   }, [piSDKLoaded, onIncompletePaymentFound]);
 

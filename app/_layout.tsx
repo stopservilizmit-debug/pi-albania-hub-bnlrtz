@@ -6,22 +6,22 @@ import { PiProvider } from "@/contexts/PiContext";
 import { SystemBars } from "react-native-edge-to-edge";
 import { Stack } from "expo-router";
 import "react-native-reanimated";
-import { useColorScheme, View, Text } from "react-native";
+import { useColorScheme } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 import { useFonts } from "expo-font";
 import {
   DarkTheme,
-  DefaultTheme,
   Theme,
   ThemeProvider,
 } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import { colors } from "@/styles/commonStyles";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
 SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
-  console.log('RootLayout: Initializing Pi Albania Hub');
+function RootLayoutContent() {
+  console.log('RootLayout: Initializing Albania Hub');
   const colorScheme = useColorScheme();
   const [loaded, error] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
@@ -45,7 +45,7 @@ export default function RootLayout() {
     return null;
   }
 
-  // Custom dark theme for Pi Albania Hub - Anthracite & Gold
+  // Custom dark theme for Albania Hub - Anthracite & Gold
   const AlbaniaHubTheme: Theme = {
     ...DarkTheme,
     colors: {
@@ -96,10 +96,25 @@ export default function RootLayout() {
                   contentStyle: { backgroundColor: 'transparent' }
                 }} 
               />
+              <Stack.Screen 
+                name="+not-found" 
+                options={{ 
+                  title: 'Oops!',
+                  contentStyle: { backgroundColor: colors.background }
+                }} 
+              />
             </Stack>
           </PiProvider>
         </WidgetProvider>
       </ThemeProvider>
     </GestureHandlerRootView>
+  );
+}
+
+export default function RootLayout() {
+  return (
+    <ErrorBoundary>
+      <RootLayoutContent />
+    </ErrorBoundary>
   );
 }
